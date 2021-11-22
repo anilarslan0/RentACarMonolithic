@@ -1,4 +1,4 @@
-package com.etiya.rentACarSpring.businnes.request;
+package com.etiya.rentACarSpring.entities.complexTypes;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+public class CarDetail {
+	private int id;
 
-public class CreateCarRequest {
+	private String brandName;
+	
+	private String colorName;
 
-	private int color_Id;
-	private int brand_Id;
 	private int dailyPrice;
 
 	private String description;

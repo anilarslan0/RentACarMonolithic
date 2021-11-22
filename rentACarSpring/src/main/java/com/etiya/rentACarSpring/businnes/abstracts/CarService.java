@@ -6,11 +6,15 @@ import com.etiya.rentACarSpring.businnes.dtos.CarSearchListDto;
 import com.etiya.rentACarSpring.businnes.request.CreateCarRequest;
 import com.etiya.rentACarSpring.businnes.request.DeleteCarRequest;
 import com.etiya.rentACarSpring.businnes.request.UpdateCarRequest;
+import com.etiya.rentACarSpring.core.utilities.results.DataResult;
+import com.etiya.rentACarSpring.core.utilities.results.Result;
+import com.etiya.rentACarSpring.entities.complexTypes.CarDetail;
 
 public interface CarService {
-	List<CarSearchListDto> getAll();
-
-	void Save(CreateCarRequest createCarRequest);
-	void Update(UpdateCarRequest updateCarRequest);
-	void Delete(DeleteCarRequest deleteCarRequest);
+	DataResult<List<CarSearchListDto>> getAll();
+	DataResult<List<CarSearchListDto>> getByDailyPrice(Integer dailyPrice);
+	DataResult<List<CarDetail>> getCarWithBrandAndColorDetails();
+	Result Save(CreateCarRequest createCarRequest);
+	Result Update(UpdateCarRequest updateCarRequest);
+	Result Delete(DeleteCarRequest deleteCarRequest);
 }

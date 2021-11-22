@@ -17,6 +17,7 @@ import com.etiya.rentACarSpring.businnes.abstracts.BrandService;
 import com.etiya.rentACarSpring.businnes.request.CreateBrandRequest;
 import com.etiya.rentACarSpring.businnes.request.DeleteBrandRequest;
 import com.etiya.rentACarSpring.businnes.request.UpdateBrandRequest;
+import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.entities.Brand;
 
 @RestController
@@ -31,26 +32,20 @@ public class BrandsController {
 		this.brandService = brandService;
 	}
 
-	@GetMapping("all")
-	public List<Brand> getAll() {
-		List<Brand> brands = new ArrayList<Brand>();
-		brands.add(new Brand(1, "Opel"));
-
-		return brands;
-	}
+	
 
 	@PostMapping("add")
-	public void add(@RequestBody CreateBrandRequest createBrandRequest) {
-		this.brandService.save(createBrandRequest);
+	public Result add(@RequestBody CreateBrandRequest createBrandRequest) {
+		return this.brandService.save(createBrandRequest);
 	}
 
 	@PutMapping("update")
-	public void update(@RequestBody UpdateBrandRequest updateBrandRequest) {
-		this.brandService.update(updateBrandRequest);
+	public Result update(@RequestBody UpdateBrandRequest updateBrandRequest) {
+		return this.brandService.update(updateBrandRequest);
 	}
 
 	@DeleteMapping("delete")
-	public void delete(@RequestBody DeleteBrandRequest deleteBrandRequest) {
-		this.brandService.delete(deleteBrandRequest);
+	public Result delete(@RequestBody DeleteBrandRequest deleteBrandRequest) {
+		return this.brandService.delete(deleteBrandRequest);
 	}
 }

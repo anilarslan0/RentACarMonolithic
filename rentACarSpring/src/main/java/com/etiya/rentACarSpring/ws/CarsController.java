@@ -1,6 +1,7 @@
 package com.etiya.rentACarSpring.ws;
 
-import java.util.ArrayList;
+
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.rentACarSpring.businnes.abstracts.CarService;
@@ -17,41 +19,51 @@ import com.etiya.rentACarSpring.businnes.dtos.CarSearchListDto;
 import com.etiya.rentACarSpring.businnes.request.CreateCarRequest;
 import com.etiya.rentACarSpring.businnes.request.DeleteCarRequest;
 import com.etiya.rentACarSpring.businnes.request.UpdateCarRequest;
-import com.etiya.rentACarSpring.entities.Car;
+import com.etiya.rentACarSpring.core.utilities.results.DataResult;
+import com.etiya.rentACarSpring.core.utilities.results.Result;
+import com.etiya.rentACarSpring.entities.complexTypes.CarDetail;
+
 
 @RestController
 @RequestMapping("api/cars")
 public class CarsController {
 
 	CarService carService;
+
 	@Autowired
 	public CarsController(CarService carService) {
 		super();
 		this.carService = carService;
 	}
 
-	@GetMapping("check")
-	public String check() {
-		return "API up";
-	}
-
 	@GetMapping("all")
-	public List<CarSearchListDto> getAll() {
+	public DataResult<List<CarSearchListDto>> getAll() {
 		return carService.getAll();
 	}
 	
+	@GetMapping("detailedCars")
+	public DataResult<List<CarDetail>> getDetailedProducts() {
+		return carService.getCarWithBrandAndColorDetails();
+	}
+	
+	@GetMapping("getByDailyPrice")
+	public DataResult<List<CarSearchListDto>> getByDailyPrice(@RequestParam("dailyPrice") Integer dailyPrice) {
+		return carService.getByDailyPrice(dailyPrice);
+	}
+
 	@PostMapping("add")
-	public void add(@RequestBody CreateCarRequest createCarRequest) {
-		this.carService.Save(createCarRequest);
+	public Result add(@RequestBody CreateCarRequest createCarRequest) {
+
+		return this.carService.Save(createCarRequest);
 	}
-	
+
 	@PutMapping("update")
-	public void update(@RequestBody UpdateCarRequest updateCarRequest) {
-		this.carService.Update(updateCarRequest);
+	public Result update(@RequestBody UpdateCarRequest updateCarRequest) {
+		return this.carService.Update(updateCarRequest);
 	}
-	
+
 	@DeleteMapping("delete")
-	public void delete(@RequestBody DeleteCarRequest deleteCarRequest) {
-		this.carService.Delete(deleteCarRequest);
+	public Result delete(@RequestBody DeleteCarRequest deleteCarRequest) {
+		return this.carService.Delete(deleteCarRequest);
 	}
 }
