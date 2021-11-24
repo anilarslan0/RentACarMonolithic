@@ -1,4 +1,4 @@
-package com.etiya.rentACarSpring.businnes.request;
+package com.etiya.rentACarSpring.businnes.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class DeleteCarRequest {
-	private int id;
+public class UserSearchListDto {
+	private String email;
+
 }

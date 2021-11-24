@@ -1,8 +1,8 @@
 package com.etiya.rentACarSpring.ws;
 
-
-
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.rentACarSpring.businnes.abstracts.CarService;
 import com.etiya.rentACarSpring.businnes.dtos.CarSearchListDto;
-import com.etiya.rentACarSpring.businnes.request.CreateCarRequest;
-import com.etiya.rentACarSpring.businnes.request.DeleteCarRequest;
-import com.etiya.rentACarSpring.businnes.request.UpdateCarRequest;
+import com.etiya.rentACarSpring.businnes.request.CarRequest.CreateCarRequest;
+import com.etiya.rentACarSpring.businnes.request.CarRequest.DeleteCarRequest;
+import com.etiya.rentACarSpring.businnes.request.CarRequest.UpdateCarRequest;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.entities.complexTypes.CarDetail;
-
 
 @RestController
 @RequestMapping("api/cars")
@@ -40,30 +39,30 @@ public class CarsController {
 	public DataResult<List<CarSearchListDto>> getAll() {
 		return carService.getAll();
 	}
-	
+
 	@GetMapping("detailedCars")
 	public DataResult<List<CarDetail>> getDetailedProducts() {
 		return carService.getCarWithBrandAndColorDetails();
 	}
-	
+
 	@GetMapping("getByDailyPrice")
 	public DataResult<List<CarSearchListDto>> getByDailyPrice(@RequestParam("dailyPrice") Integer dailyPrice) {
 		return carService.getByDailyPrice(dailyPrice);
 	}
 
 	@PostMapping("add")
-	public Result add(@RequestBody CreateCarRequest createCarRequest) {
+	public Result add(@RequestBody @Valid CreateCarRequest createCarRequest) {
 
 		return this.carService.Save(createCarRequest);
 	}
 
 	@PutMapping("update")
-	public Result update(@RequestBody UpdateCarRequest updateCarRequest) {
+	public Result update(@RequestBody @Valid UpdateCarRequest updateCarRequest) {
 		return this.carService.Update(updateCarRequest);
 	}
 
 	@DeleteMapping("delete")
-	public Result delete(@RequestBody DeleteCarRequest deleteCarRequest) {
+	public Result delete(@RequestBody @Valid DeleteCarRequest deleteCarRequest) {
 		return this.carService.Delete(deleteCarRequest);
 	}
 }

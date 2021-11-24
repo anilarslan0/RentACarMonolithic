@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.ColorService;
-
-import com.etiya.rentACarSpring.businnes.request.CreateColorRequest;
-import com.etiya.rentACarSpring.businnes.request.DeleteColorRequest;
-import com.etiya.rentACarSpring.businnes.request.UpdateColorRequest;
+import com.etiya.rentACarSpring.businnes.request.ColorRequest.CreateColorRequest;
+import com.etiya.rentACarSpring.businnes.request.ColorRequest.DeleteColorRequest;
+import com.etiya.rentACarSpring.businnes.request.ColorRequest.UpdateColorRequest;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 
 import com.etiya.rentACarSpring.core.utilities.results.Result;

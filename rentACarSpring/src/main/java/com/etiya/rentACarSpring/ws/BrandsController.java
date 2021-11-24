@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.rentACarSpring.businnes.abstracts.BrandService;
-import com.etiya.rentACarSpring.businnes.request.CreateBrandRequest;
-import com.etiya.rentACarSpring.businnes.request.DeleteBrandRequest;
-import com.etiya.rentACarSpring.businnes.request.UpdateBrandRequest;
+import com.etiya.rentACarSpring.businnes.request.BrandRequest.CreateBrandRequest;
+import com.etiya.rentACarSpring.businnes.request.BrandRequest.DeleteBrandRequest;
+import com.etiya.rentACarSpring.businnes.request.BrandRequest.UpdateBrandRequest;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.entities.Brand;
 
@@ -35,17 +37,17 @@ public class BrandsController {
 	
 
 	@PostMapping("add")
-	public Result add(@RequestBody CreateBrandRequest createBrandRequest) {
+	public Result add(@RequestBody @Valid CreateBrandRequest createBrandRequest) {
 		return this.brandService.save(createBrandRequest);
 	}
 
 	@PutMapping("update")
-	public Result update(@RequestBody UpdateBrandRequest updateBrandRequest) {
+	public Result update(@RequestBody @Valid UpdateBrandRequest updateBrandRequest) {
 		return this.brandService.update(updateBrandRequest);
 	}
 
 	@DeleteMapping("delete")
-	public Result delete(@RequestBody DeleteBrandRequest deleteBrandRequest) {
+	public Result delete(@RequestBody @Valid DeleteBrandRequest deleteBrandRequest) {
 		return this.brandService.delete(deleteBrandRequest);
 	}
 }

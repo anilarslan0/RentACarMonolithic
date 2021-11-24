@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.BrandService;
-import com.etiya.rentACarSpring.businnes.request.CreateBrandRequest;
-import com.etiya.rentACarSpring.businnes.request.DeleteBrandRequest;
-import com.etiya.rentACarSpring.businnes.request.UpdateBrandRequest;
+import com.etiya.rentACarSpring.businnes.request.BrandRequest.CreateBrandRequest;
+import com.etiya.rentACarSpring.businnes.request.BrandRequest.DeleteBrandRequest;
+import com.etiya.rentACarSpring.businnes.request.BrandRequest.UpdateBrandRequest;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;

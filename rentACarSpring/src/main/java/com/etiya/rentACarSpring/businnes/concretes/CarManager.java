@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.CarService;
 import com.etiya.rentACarSpring.businnes.dtos.CarSearchListDto;
-import com.etiya.rentACarSpring.businnes.request.CreateCarRequest;
-import com.etiya.rentACarSpring.businnes.request.DeleteCarRequest;
-import com.etiya.rentACarSpring.businnes.request.UpdateCarRequest;
+import com.etiya.rentACarSpring.businnes.request.CarRequest.CreateCarRequest;
+import com.etiya.rentACarSpring.businnes.request.CarRequest.DeleteCarRequest;
+import com.etiya.rentACarSpring.businnes.request.CarRequest.UpdateCarRequest;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
@@ -60,7 +60,7 @@ public class CarManager implements CarService {
 	@Override
 	public Result Delete(DeleteCarRequest deleteCarRequest) {
 
-		this.carDao.deleteById(deleteCarRequest.getId());
+		this.carDao.deleteById(deleteCarRequest.getCarId());
 		return new SuccesResult("Silme İslemi Basarili");
 
 	}

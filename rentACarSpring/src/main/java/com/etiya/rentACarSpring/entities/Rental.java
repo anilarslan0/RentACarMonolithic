@@ -1,7 +1,8 @@
 package com.etiya.rentACarSpring.entities;
 
-import javax.persistence.Column;
+import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,29 +19,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "cars")
-public class Car {
-
+@Table(name = "rentals")
+public class Rental {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int carId;
+	@Column(name = "rental_id")
+	private int rentalId;
+	
+	@Column (name ="rent_date")
+	private Date rentDate; 
 
-	@Column(name = "modelYear")
-	private int modelYear;
-
-	@Column(name = "dailyPrice")
-	private int dailyPrice;
-
-	@Column(name = "description")
-	private String description;
-
-	@ManyToOne
-	@JoinColumn(name = "brand_id")
-	private Brand brand;
-
-	@ManyToOne
-	@JoinColumn(name = "color_id")
-	private Color color;
-
+	@Column (name="return_date")
+	private Date returnDate;
+	
+	@ManyToOne 
+	@JoinColumn (name= "id")
+	private Car car;
+	
+	@ManyToOne 
+	@JoinColumn (name= "individualCustomers_id")
+	private IndividualCustomer individualCustomer;
 }

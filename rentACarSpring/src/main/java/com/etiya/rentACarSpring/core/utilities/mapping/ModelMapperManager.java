@@ -25,7 +25,7 @@ private ModelMapper modelMapper;
 
 	@Override
 	public ModelMapper forRequest() {
-		this.modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		this.modelMapper.getConfiguration().setAmbiguityIgnored(true).setMatchingStrategy(MatchingStrategies.STANDARD);
 		return modelMapper;
 	}
 

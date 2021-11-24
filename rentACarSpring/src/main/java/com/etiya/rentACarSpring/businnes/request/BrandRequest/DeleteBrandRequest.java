@@ -1,4 +1,4 @@
-package com.etiya.rentACarSpring.businnes.request;
+package com.etiya.rentACarSpring.businnes.request.BrandRequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -3,9 +3,9 @@ package com.etiya.rentACarSpring.businnes.abstracts;
 import java.util.List;
 
 import com.etiya.rentACarSpring.businnes.dtos.CarSearchListDto;
-import com.etiya.rentACarSpring.businnes.request.CreateCarRequest;
-import com.etiya.rentACarSpring.businnes.request.DeleteCarRequest;
-import com.etiya.rentACarSpring.businnes.request.UpdateCarRequest;
+import com.etiya.rentACarSpring.businnes.request.CarRequest.CreateCarRequest;
+import com.etiya.rentACarSpring.businnes.request.CarRequest.DeleteCarRequest;
+import com.etiya.rentACarSpring.businnes.request.CarRequest.UpdateCarRequest;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.entities.complexTypes.CarDetail;

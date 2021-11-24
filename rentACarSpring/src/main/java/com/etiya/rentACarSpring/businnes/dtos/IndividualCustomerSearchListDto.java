@@ -1,5 +1,7 @@
 package com.etiya.rentACarSpring.businnes.dtos;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,12 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarSearchListDto {
+public class IndividualCustomerSearchListDto {
 
-	private int carId;
+	private String firstName;
 
-	private int dailyPrice;
+	private String lastName;
 
-	private String description;
-
+	private Date birthday;
 }

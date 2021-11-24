@@ -1,8 +1,8 @@
 package com.etiya.rentACarSpring.businnes.abstracts;
 
-import com.etiya.rentACarSpring.businnes.request.CreateColorRequest;
-import com.etiya.rentACarSpring.businnes.request.DeleteColorRequest;
-import com.etiya.rentACarSpring.businnes.request.UpdateColorRequest;
+import com.etiya.rentACarSpring.businnes.request.ColorRequest.CreateColorRequest;
+import com.etiya.rentACarSpring.businnes.request.ColorRequest.DeleteColorRequest;
+import com.etiya.rentACarSpring.businnes.request.ColorRequest.UpdateColorRequest;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 
 public interface ColorService {
