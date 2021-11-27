@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.RentalService;
 import com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto;
+import com.etiya.rentACarSpring.businnes.fakeServices.findexService;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.CreateRentalRequest;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.DeleteRentaRequest;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.UpdateRentalRequest;
@@ -29,6 +30,8 @@ public class RentalManager implements RentalService {
 	private RentalDao rentalDao;
 	private ModelMapperService modelMapperService;
 
+
+
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService) {
 		super();
@@ -48,7 +51,7 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public Result Add(CreateRentalRequest createRentalRequest) {
-		Result result = BusinnessRules.run(checkReturnDateIsEmpty(createRentalRequest.getReturnDate()));
+		Result result = BusinnessRules.run(checkCarRentalStatus(createRentalRequest.getCarId()));
 		if (result != null) {
 			return result;
 		}
@@ -70,13 +73,47 @@ public class RentalManager implements RentalService {
 		this.rentalDao.deleteById(deleteRentalRequest.getRentalId());
 		return new SuccesResult("Silme İslemi Basarili");
 	}
-
-	private Result checkReturnDateIsEmpty(Date returnDate) {
-		Rental rental = this.rentalDao.getByReturnDate(returnDate);
-		if (returnDate == null) {
-			return new ErrorResult("This car has been rented");
+	
+//	private Result checkReturnDateIsEmpty(Date returnDate) {
+//	Rental rental = this.rentalDao.getByReturnDate(returnDate);
+//	if (returnDate == null) {
+//		return new ErrorResult("This car has been rented");
+//	}
+//	return new SuccesResult();
+//}
+	
+	private Result checkCarRentalStatus(int carId) {
+		List<Rental> result = this.rentalDao.getByCar_CarId(carId);
+		if (result != null) {
+			for (Rental rentals : this.rentalDao.getByCar_CarId(carId)) {
+				if (rentals.getReturnDate() == null) {
+					return new ErrorResult("Araç bir başkası tarafından kiralanmıştır.");
+				}
+			}
 		}
 		return new SuccesResult();
 	}
+	
+//	private Result checkUserIndexScore(int userId) {
+//		List<Rental> result = this.rentalDao.getUserIfIndexScoreIsNull(userId);
+//		if (result != null) {
+//			return new ErrorResult("Arac teslim edilmemistir");
+//		}
+//		return new SuccesResult();
+//	}
+//	
+//	private Result checkIfCarReturned(int carId) {
+//		
+//		RentalSearchListDto result = this.rentalDao.getByIdWhereReturnDateIsNull(carId);
+//		if (result != null) {
+//			return new ErrorResult("Arac teslim edilmemistir");
+//		}
+//		return new SuccesResult();
+//	}
+	
+//
+
+	
+
 
 }

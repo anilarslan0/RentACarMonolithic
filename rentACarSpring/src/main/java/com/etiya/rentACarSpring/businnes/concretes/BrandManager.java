@@ -7,7 +7,9 @@ import com.etiya.rentACarSpring.businnes.abstracts.BrandService;
 import com.etiya.rentACarSpring.businnes.request.BrandRequest.CreateBrandRequest;
 import com.etiya.rentACarSpring.businnes.request.BrandRequest.DeleteBrandRequest;
 import com.etiya.rentACarSpring.businnes.request.BrandRequest.UpdateBrandRequest;
+import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
+import com.etiya.rentACarSpring.core.utilities.results.ErrorResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.BrandDao;
@@ -29,6 +31,11 @@ public class BrandManager implements BrandService {
 
 	@Override
 	public Result save(CreateBrandRequest createBrandRequest) {
+		Result result = BusinnessRules.run(checkBrandNameDublicated(createBrandRequest.getBrandName()));
+		if (result != null) {
+			return result;
+		}
+		
 		Brand brand = modelMapperService.forRequest().map(createBrandRequest, Brand.class);
 		this.brandDao.save(brand);
 		return new SuccesResult("Ekleme İslemi Basarili");
@@ -46,6 +53,15 @@ public class BrandManager implements BrandService {
 
 		this.brandDao.deleteById(deleteBrandRequest.getBrandId());
 		return new SuccesResult("Silme İslemi Basarili");
+	}
+	
+	private Result checkBrandNameDublicated(String brandName) {
+		Brand brand=this.brandDao.getByBrandName(brandName);
+		if (brand!=null) {
+			return new ErrorResult("Bu marka daha önce tanımlanmıştır");
+		}
+		
+		return new SuccesResult();
 	}
 
 }

@@ -19,6 +19,7 @@ import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.IndividualCustomerDao;
 import com.etiya.rentACarSpring.entities.IndividualCustomer;
+import com.etiya.rentACarSpring.entities.User;
 
 
 @Service
@@ -55,6 +56,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	@Override
 	public Result Update(UpdateIndividualCustomerRequest updateIndividualCustomerRequest) {
 		IndividualCustomer individualCustomer = modelMapperService.forRequest().map(updateIndividualCustomerRequest, IndividualCustomer.class);
+		
 		this.individualCustomerDao.save(individualCustomer);
 		return new SuccesResult("Guncelleme İslemi Basarili");
 	}

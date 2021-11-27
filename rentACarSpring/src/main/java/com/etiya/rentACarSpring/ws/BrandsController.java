@@ -34,8 +34,6 @@ public class BrandsController {
 		this.brandService = brandService;
 	}
 
-	
-
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateBrandRequest createBrandRequest) {
 		return this.brandService.save(createBrandRequest);

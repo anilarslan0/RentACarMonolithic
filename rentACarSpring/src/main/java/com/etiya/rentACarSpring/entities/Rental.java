@@ -2,6 +2,7 @@ package com.etiya.rentACarSpring.entities;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,11 +34,16 @@ public class Rental {
 	@Column (name="return_date")
 	private Date returnDate;
 	
-	@ManyToOne 
+	@ManyToOne(cascade = CascadeType.DETACH) 
 	@JoinColumn (name= "id")
 	private Car car;
 	
-	@ManyToOne 
-	@JoinColumn (name= "individualCustomers_id")
+	@ManyToOne(cascade = CascadeType.DETACH)
+	@JoinColumn(name = "individualCustomers_id")
 	private IndividualCustomer individualCustomer;
+	
+	@ManyToOne(cascade = CascadeType.DETACH)
+	@JoinColumn(name = "corparate_customer_id")
+	private CorparateCustomer corparateCustomer;
+	
 }

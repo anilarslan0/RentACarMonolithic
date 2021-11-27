@@ -1,7 +1,7 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
 import java.util.List;
-
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.CarDao;
 import com.etiya.rentACarSpring.entities.Car;
 import com.etiya.rentACarSpring.entities.complexTypes.CarDetail;
+import com.etiya.rentACarSpring.entities.complexTypes.CarDetailForColorAndBrand;
 
 @Service
 public class CarManager implements CarService {
@@ -46,6 +47,8 @@ public class CarManager implements CarService {
 	@Override
 	public Result Save(CreateCarRequest createCarRequest) {
 		Car car = modelMapperService.forRequest().map(createCarRequest, Car.class);
+		Random rand=new Random();
+		car.setFindexScore(rand.nextInt(1900));
 		this.carDao.save(car);
 		return new SuccesResult("Ekleme İslemi Basarili");
 	}
@@ -81,5 +84,32 @@ public class CarManager implements CarService {
 
 		return new SuccesDataResult<List<CarDetail>>(response);
 	}
+
+	@Override
+	public DataResult<List<CarDetailForColorAndBrand>> getCarByColor(Integer colorId) {
+		List<CarDetailForColorAndBrand> response = this.carDao.getCarDetailByColor(colorId).stream()
+				.map(car -> modelMapperService.forDto().map(car, CarDetailForColorAndBrand.class)).collect(Collectors.toList());
+
+		return new SuccesDataResult<List<CarDetailForColorAndBrand>>(response);
+	}
+
+	@Override
+	public DataResult<List<CarDetailForColorAndBrand>> getCarByBrand(Integer brandId) {
+		List<CarDetailForColorAndBrand> response = this.carDao.getCarDetailByBrand(brandId).stream()
+				.map(car -> modelMapperService.forDto().map(car, CarDetailForColorAndBrand.class)).collect(Collectors.toList());
+
+		return new SuccesDataResult<List<CarDetailForColorAndBrand>>(response);
+	}
+
+	@Override
+	public DataResult<List<CarDetailForColorAndBrand>> getCarByCarId(Integer carId) {
+		List<CarDetailForColorAndBrand> response = this.carDao.getCarDetailByCarId(carId).stream()
+				.map(car -> modelMapperService.forDto().map(car, CarDetailForColorAndBrand.class)).collect(Collectors.toList());
+
+		return new SuccesDataResult<List<CarDetailForColorAndBrand>>(response);
+	}
+
+	
+
 
 }

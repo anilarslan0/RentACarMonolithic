@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -21,11 +22,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@PrimaryKeyJoinColumn(name = "user_id")
 @Table(name = "individualCustomers")
-public class IndividualCustomer {
+public class IndividualCustomer extends User {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
 	@Column(name = "individualCustomers_id")
 	private int individualCustomersId;
 	
@@ -38,9 +39,9 @@ public class IndividualCustomer {
 	@Column (name="birthday")
 	private Date birthday;  
 	
-	@OneToOne
-	@JoinColumn (name="user_id")
-	private User user;
+//	@OneToOne
+//	@JoinColumn(name = "user_id")
+//	private User user;
 	
 	@OneToMany(mappedBy="individualCustomer")
 	private List<Rental> rentals;

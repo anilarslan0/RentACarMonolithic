@@ -28,7 +28,7 @@ public class CreateRentalRequest {
 	private Date returnDate;
 
 	@NotNull
-	private int individualCustomersId;
+	private int userId;
 
 	@NotNull
 	private int carId;

@@ -22,6 +22,7 @@ import com.etiya.rentACarSpring.businnes.request.CarRequest.UpdateCarRequest;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.entities.complexTypes.CarDetail;
+import com.etiya.rentACarSpring.entities.complexTypes.CarDetailForColorAndBrand;
 
 @RestController
 @RequestMapping("api/cars")
@@ -49,6 +50,21 @@ public class CarsController {
 	public DataResult<List<CarSearchListDto>> getByDailyPrice(@RequestParam("dailyPrice") Integer dailyPrice) {
 		return carService.getByDailyPrice(dailyPrice);
 	}
+	
+	@GetMapping("getCarsByColor")
+	public DataResult<List<CarDetailForColorAndBrand>> getCarByColor(@RequestParam("colorId") Integer colorId) {
+		return carService.getCarByColor(colorId);
+	}
+	@GetMapping("getCarsByBrand")
+	public DataResult<List<CarDetailForColorAndBrand>> getByBrand(@RequestParam("brandId") Integer brandId) {
+		return carService.getCarByBrand(brandId);
+	}
+	@GetMapping("getCarsByCarId")
+	public DataResult<List<CarDetailForColorAndBrand>> getByCar(@RequestParam("carId") Integer carId) {
+		return carService.getCarByCarId(carId);
+	}
+
+
 
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateCarRequest createCarRequest) {

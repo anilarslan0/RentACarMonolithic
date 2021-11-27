@@ -2,6 +2,7 @@ package com.etiya.rentACarSpring.businnes.request.IndividualCustomerRequest;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -26,6 +27,12 @@ public class CreateIndividualCustomerRequest {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 	@NotNull
-	private int userId;
+	private String email;
+	@NotNull
+	private String password; 
+	@NotNull
+	private int findexScore;
+//	@NotNull
+//	private int userId;
 
 }

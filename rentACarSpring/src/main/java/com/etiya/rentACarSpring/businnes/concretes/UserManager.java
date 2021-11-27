@@ -13,6 +13,7 @@ import com.etiya.rentACarSpring.businnes.request.UserRequest.DeleteUserRequest;
 import com.etiya.rentACarSpring.businnes.request.UserRequest.UpdateUserRequest;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
+import com.etiya.rentACarSpring.core.utilities.results.ErrorResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
@@ -45,6 +46,8 @@ public class UserManager implements UserService {
 	@Override
 	public Result Add(CreateUserRequest createUserRequest) {
 		User user = modelMapperService.forRequest().map(createUserRequest, User.class);
+//		int findexScore=1000;
+//		user.setFindexScore(findexScore);
 		this.userDao.save(user);
 		return new SuccesResult("Ekleme İslemi Basarili");
 	}
@@ -60,6 +63,14 @@ public class UserManager implements UserService {
 	public Result Delete(DeleteUserRequest deleteUserRequest) {
 		this.userDao.deleteById(deleteUserRequest.getUserId());
 		return new SuccesResult("Silme İslemi Basarili");
+	}
+
+	@Override
+	public Result existByEmail(String email) {
+		if (	this.userDao.existsByEmail(email)) {
+			return new ErrorResult("Mail mevcut değil");
+		}
+		return new SuccesResult();
 	}
 
 }

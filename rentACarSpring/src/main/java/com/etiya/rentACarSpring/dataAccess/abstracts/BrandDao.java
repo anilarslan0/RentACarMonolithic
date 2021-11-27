@@ -10,4 +10,5 @@ import com.etiya.rentACarSpring.entities.Car;
 
 public interface BrandDao extends JpaRepository<Brand, Integer>{
 	
+	Brand getByBrandName(String brandName);
 }

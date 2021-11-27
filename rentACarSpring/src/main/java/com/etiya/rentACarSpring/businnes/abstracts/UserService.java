@@ -14,4 +14,5 @@ public interface UserService {
 	Result Add(CreateUserRequest createUserRequest);
 	Result Update(UpdateUserRequest updateUserRequest);
 	Result Delete(DeleteUserRequest deleteUserRequest);
+	Result existByEmail(String email);
 }
