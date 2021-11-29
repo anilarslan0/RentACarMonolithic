@@ -26,6 +26,7 @@ import com.etiya.rentACarSpring.entities.Color;
 @RequestMapping("api/colors")
 public class ColorsController {
 	private ColorService colorService;
+
 	@Autowired
 	public ColorsController(ColorService colorService) {
 		super();

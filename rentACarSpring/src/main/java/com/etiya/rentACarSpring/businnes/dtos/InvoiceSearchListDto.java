@@ -2,6 +2,8 @@ package com.etiya.rentACarSpring.businnes.dtos;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,13 +11,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RentalSearchListDto {
-
-//	private int rentalId;
+public class InvoiceSearchListDto {
 	
-	private int carId;
+	private int invoiceId;
 
-//	private Date rentDate;
+	private String invoiceNumber;
 
-	private Date returnDate;
+	private Date createDate;
+
+	private Double totalPrice;
+
+	private int totalRentDay;
+	
 }

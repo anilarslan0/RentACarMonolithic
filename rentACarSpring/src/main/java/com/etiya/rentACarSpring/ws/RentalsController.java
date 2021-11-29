@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.rentACarSpring.businnes.abstracts.RentalService;
@@ -22,6 +23,7 @@ import com.etiya.rentACarSpring.businnes.request.RentalRequest.DeleteRentaReques
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.UpdateRentalRequest;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
+import com.etiya.rentACarSpring.entities.complexTypes.CarDetailForColorAndBrand;
 
 @RestController
 @RequestMapping("api/rentals")
@@ -54,4 +56,9 @@ public class RentalsController {
 	public Result delete(@RequestBody @Valid DeleteRentaRequest deleteRentalRequest) {
 		return this.rentalService.Delete(deleteRentalRequest);
 	}
+	
+//	@GetMapping("getRentalsByCarId")
+//	public DataResult<List<RentalSearchListDto>> getByRental(@RequestParam("carId") Integer carId) {
+//		return rentalService.ge;
+//	}
 }

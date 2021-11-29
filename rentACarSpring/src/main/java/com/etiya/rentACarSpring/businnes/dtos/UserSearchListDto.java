@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class UserSearchListDto {
 	private String email;
 
+	private int findexScore;
 }

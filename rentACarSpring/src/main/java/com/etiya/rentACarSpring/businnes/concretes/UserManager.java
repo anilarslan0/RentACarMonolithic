@@ -73,4 +73,9 @@ public class UserManager implements UserService {
 		return new SuccesResult();
 	}
 
+	@Override
+	public DataResult<User> getById(int userId) {
+		return new SuccesDataResult<User>(this.userDao.getById(userId));
+	}
+
 }

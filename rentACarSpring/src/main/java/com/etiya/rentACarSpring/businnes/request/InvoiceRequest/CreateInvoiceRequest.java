@@ -1,7 +1,8 @@
-package com.etiya.rentACarSpring.businnes.request.RentalRequest;
+package com.etiya.rentACarSpring.businnes.request.InvoiceRequest;
 
 import java.sql.Date;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -14,24 +15,21 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateRentalRequest {
-	
+public class CreateInvoiceRequest {
 	@JsonIgnore
-	private int rentalId;
-	
+	private int invoiceId;
+	@NotNull
+	private String invoiceNumber;
 	@NotNull
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date rentDate;
-
-	
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date returnDate;
-
+	private Date createDate;
+	@NotNull
+	private Double totalPrice;
+	@NotNull
+	@Min(1)
+	private int totalRentDay;
 	@NotNull
 	private int userId;
-
 	@NotNull
-	private int carId;
-
-	
+	private int rentalId;
 }

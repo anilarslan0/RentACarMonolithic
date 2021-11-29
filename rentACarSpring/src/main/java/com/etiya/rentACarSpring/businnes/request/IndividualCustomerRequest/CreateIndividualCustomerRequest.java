@@ -31,6 +31,7 @@ public class CreateIndividualCustomerRequest {
 	@NotNull
 	private String password; 
 	@NotNull
+	@JsonIgnore
 	private int findexScore;
 //	@NotNull
 //	private int userId;

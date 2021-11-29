@@ -64,7 +64,10 @@ public class CarsController {
 		return carService.getCarByCarId(carId);
 	}
 
-
+	@GetMapping("getAllWithoutMaintenance")
+	public DataResult<List<CarSearchListDto>> getWithoutMaintenance(){	
+		return this.carService.getWithoutMaintenanceOfCar();
+	}
 
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateCarRequest createCarRequest) {

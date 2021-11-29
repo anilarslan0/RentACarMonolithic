@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.BrandService;
+import com.etiya.rentACarSpring.businnes.constants.Messages;
 import com.etiya.rentACarSpring.businnes.request.BrandRequest.CreateBrandRequest;
 import com.etiya.rentACarSpring.businnes.request.BrandRequest.DeleteBrandRequest;
 import com.etiya.rentACarSpring.businnes.request.BrandRequest.UpdateBrandRequest;
@@ -38,27 +39,27 @@ public class BrandManager implements BrandService {
 		
 		Brand brand = modelMapperService.forRequest().map(createBrandRequest, Brand.class);
 		this.brandDao.save(brand);
-		return new SuccesResult("Ekleme İslemi Basarili");
+		return new SuccesResult(Messages.addedBrand);
 	}
 
 	@Override
 	public Result update(UpdateBrandRequest updateBrandRequest) {
 		Brand brand = modelMapperService.forRequest().map(updateBrandRequest, Brand.class);
 		this.brandDao.save(brand);
-		return new SuccesResult("Guncelleme İslemi Basarili");
+		return new SuccesResult(Messages.updatedBrand);
 	}
 
 	@Override
 	public Result delete(DeleteBrandRequest deleteBrandRequest) {
 
 		this.brandDao.deleteById(deleteBrandRequest.getBrandId());
-		return new SuccesResult("Silme İslemi Basarili");
+		return new SuccesResult(Messages.deletedBrand);
 	}
 	
 	private Result checkBrandNameDublicated(String brandName) {
 		Brand brand=this.brandDao.getByBrandName(brandName);
 		if (brand!=null) {
-			return new ErrorResult("Bu marka daha önce tanımlanmıştır");
+			return new ErrorResult(Messages.checkBrandNameDublicated);
 		}
 		
 		return new SuccesResult();

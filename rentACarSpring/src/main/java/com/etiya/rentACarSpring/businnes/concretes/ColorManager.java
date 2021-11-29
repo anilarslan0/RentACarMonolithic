@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.ColorService;
+import com.etiya.rentACarSpring.businnes.constants.Messages;
 import com.etiya.rentACarSpring.businnes.request.ColorRequest.CreateColorRequest;
 import com.etiya.rentACarSpring.businnes.request.ColorRequest.DeleteColorRequest;
 import com.etiya.rentACarSpring.businnes.request.ColorRequest.UpdateColorRequest;
@@ -34,20 +35,20 @@ public class ColorManager implements ColorService {
 	public Result save(CreateColorRequest createColorRequest) {
 		Color color = modelMapperService.forRequest().map(createColorRequest, Color.class);
 		this.colorDao.save(color);
-		return new SuccesResult("Ekleme İslemi Basarili");
+		return new SuccesResult(Messages.addedColor);
 	}
 
 	@Override
 	public Result update(UpdateColorRequest updateColorRequest) {
 		Color color = modelMapperService.forRequest().map(updateColorRequest, Color.class);
 		this.colorDao.save(color);
-		return new SuccesResult("Guncelleme İslemi Basarili");
+		return new SuccesResult(Messages.updatedColor);
 	}
 
 	@Override
 	public Result delete(DeleteColorRequest deleteColorRequest) {
 		this.colorDao.deleteById(deleteColorRequest.getColorId());
-		return new SuccesResult("Silme İslemi Basarili");
+		return new SuccesResult(Messages.deletedColor);
 	}
 
 }

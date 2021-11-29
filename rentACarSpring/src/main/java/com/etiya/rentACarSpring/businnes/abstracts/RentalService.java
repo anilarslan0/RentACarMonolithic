@@ -9,6 +9,11 @@ import com.etiya.rentACarSpring.businnes.request.RentalRequest.DeleteRentaReques
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.UpdateRentalRequest;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
+import com.etiya.rentACarSpring.entities.Car;
+import com.etiya.rentACarSpring.entities.Rental;
+import com.etiya.rentACarSpring.entities.complexTypes.CarDetail;
+import com.etiya.rentACarSpring.entities.complexTypes.CarDetailForColorAndBrand;
+import com.etiya.rentACarSpring.entities.complexTypes.RentalDetail;
 
 
 public interface RentalService {
@@ -16,4 +21,7 @@ public interface RentalService {
 	Result Add(CreateRentalRequest createRentalRequest);
 	Result Update(UpdateRentalRequest updateRentalRequest);
 	Result Delete(DeleteRentaRequest deleteRentalRequest);
+	DataResult<List<Rental>> getByCar(int carId);
+	//DataResult<List<RentalDetail>> getCarById(Integer carId);
+	Result checkCarRentalStatus(int carId);
 }

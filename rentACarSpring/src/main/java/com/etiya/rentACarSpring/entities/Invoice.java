@@ -1,6 +1,7 @@
 package com.etiya.rentACarSpring.entities;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,9 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,36 +22,32 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "rentals")
-public class Rental {
-	
+@Table(name = "invoices")
+public class Invoice {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "rental_id")
-	private int rentalId;
-	
-	@Column (name ="rent_date")
-	private Date rentDate; 
+	@Column(name = "invoiceId")
+	private int invoiceId;
 
-	@Column (name="return_date")
-	private Date returnDate;
-	
-	@ManyToOne(cascade = CascadeType.DETACH) 
-	@JoinColumn (name= "id")
-	private Car car;
-	
+	@Column(name = "invoice_number")
+	private String invoiceNumber;
+
+	@Column(name = "create_date")
+	private Date createDate;
+
+	@Column(name = "total_price")
+	private Double totalPrice;
+
+	@Column(name = "total_rent_day")
+	private int totalRentDay;
+
 	@ManyToOne(cascade = CascadeType.DETACH) 
 	@JoinColumn (name= "user_id")
 	private User user;
-	
-	
-	
-//	@ManyToOne(cascade = CascadeType.DETACH)
-//	@JoinColumn(name = "individualCustomers_id")
-//	private IndividualCustomer individualCustomer;
-//	
-//	@ManyToOne(cascade = CascadeType.DETACH)
-//	@JoinColumn(name = "corparate_customer_id")
-//	private CorparateCustomer corparateCustomer;
-	
+
+	@OneToOne
+	@JoinColumn(name = "rental_id")
+	private Rental rental;
+
 }

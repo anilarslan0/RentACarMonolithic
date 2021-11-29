@@ -30,24 +30,24 @@ import com.etiya.rentACarSpring.core.utilities.results.Result;
 @RequestMapping("api/users")
 public class UsersController {
 	private UserService userService;
+
 	@Autowired
 	public UsersController(UserService userService) {
 		super();
 		this.userService = userService;
 	}
-	
+
 	@GetMapping("all")
 	public DataResult<List<UserSearchListDto>> getAll() {
 		return userService.getAll();
 	}
-	
-	
+
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateUserRequest createUserRequest) {
 
 		return this.userService.Add(createUserRequest);
 	}
-	
+
 	@PutMapping("update")
 	public Result update(@RequestBody @Valid UpdateUserRequest updateUserRequest) {
 		return this.userService.Update(updateUserRequest);

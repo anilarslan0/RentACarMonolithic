@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.CarService;
+import com.etiya.rentACarSpring.businnes.constants.Messages;
 import com.etiya.rentACarSpring.businnes.dtos.CarSearchListDto;
 import com.etiya.rentACarSpring.businnes.request.CarRequest.CreateCarRequest;
 import com.etiya.rentACarSpring.businnes.request.CarRequest.DeleteCarRequest;
 import com.etiya.rentACarSpring.businnes.request.CarRequest.UpdateCarRequest;
+import com.etiya.rentACarSpring.core.utilities.adapter.findexScoreService;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
@@ -27,6 +29,7 @@ public class CarManager implements CarService {
 
 	private CarDao carDao;
 	private ModelMapperService modelMapperService;
+	private findexScoreService findexScoreService;
 
 	@Autowired
 	public CarManager(CarDao carDao, ModelMapperService modelMapperService) {
@@ -47,24 +50,23 @@ public class CarManager implements CarService {
 	@Override
 	public Result Save(CreateCarRequest createCarRequest) {
 		Car car = modelMapperService.forRequest().map(createCarRequest, Car.class);
-		Random rand=new Random();
-		car.setFindexScore(rand.nextInt(1900));
+		car.setFindexScore(findexScoreService.sendCarFindexScore());
 		this.carDao.save(car);
-		return new SuccesResult("Ekleme İslemi Basarili");
+		return new SuccesResult(Messages.addedCar);
 	}
 
 	@Override
 	public Result Update(UpdateCarRequest updateCarRequest) {
 		Car car = modelMapperService.forRequest().map(updateCarRequest, Car.class);
 		this.carDao.save(car);
-		return new SuccesResult("Guncelleme İslemi Basarili");
+		return new SuccesResult(Messages.updatedCar);
 	}
 
 	@Override
 	public Result Delete(DeleteCarRequest deleteCarRequest) {
 
 		this.carDao.deleteById(deleteCarRequest.getCarId());
-		return new SuccesResult("Silme İslemi Basarili");
+		return new SuccesResult(Messages.deletedCar);
 
 	}
 
@@ -88,7 +90,8 @@ public class CarManager implements CarService {
 	@Override
 	public DataResult<List<CarDetailForColorAndBrand>> getCarByColor(Integer colorId) {
 		List<CarDetailForColorAndBrand> response = this.carDao.getCarDetailByColor(colorId).stream()
-				.map(car -> modelMapperService.forDto().map(car, CarDetailForColorAndBrand.class)).collect(Collectors.toList());
+				.map(car -> modelMapperService.forDto().map(car, CarDetailForColorAndBrand.class))
+				.collect(Collectors.toList());
 
 		return new SuccesDataResult<List<CarDetailForColorAndBrand>>(response);
 	}
@@ -96,7 +99,8 @@ public class CarManager implements CarService {
 	@Override
 	public DataResult<List<CarDetailForColorAndBrand>> getCarByBrand(Integer brandId) {
 		List<CarDetailForColorAndBrand> response = this.carDao.getCarDetailByBrand(brandId).stream()
-				.map(car -> modelMapperService.forDto().map(car, CarDetailForColorAndBrand.class)).collect(Collectors.toList());
+				.map(car -> modelMapperService.forDto().map(car, CarDetailForColorAndBrand.class))
+				.collect(Collectors.toList());
 
 		return new SuccesDataResult<List<CarDetailForColorAndBrand>>(response);
 	}
@@ -104,12 +108,23 @@ public class CarManager implements CarService {
 	@Override
 	public DataResult<List<CarDetailForColorAndBrand>> getCarByCarId(Integer carId) {
 		List<CarDetailForColorAndBrand> response = this.carDao.getCarDetailByCarId(carId).stream()
-				.map(car -> modelMapperService.forDto().map(car, CarDetailForColorAndBrand.class)).collect(Collectors.toList());
+				.map(car -> modelMapperService.forDto().map(car, CarDetailForColorAndBrand.class))
+				.collect(Collectors.toList());
 
 		return new SuccesDataResult<List<CarDetailForColorAndBrand>>(response);
 	}
 
-	
+	@Override
+	public DataResult<Car> getbyId(int carId) {
+		return new SuccesDataResult<Car>(this.carDao.getById(carId));
+	}
 
+	@Override
+	public DataResult<List<CarSearchListDto>> getWithoutMaintenanceOfCar() {
+		List<CarSearchListDto> result = this.carDao.getAllWithoutMaintenanceOfCar();
+		List<CarSearchListDto> response = result.stream()
+				.map(car -> modelMapperService.forDto().map(car, CarSearchListDto.class)).collect(Collectors.toList());
+		return new SuccesDataResult<List<CarSearchListDto>>(response);
+	}
 
 }

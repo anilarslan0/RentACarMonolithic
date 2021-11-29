@@ -2,6 +2,7 @@ package com.etiya.rentACarSpring.ws;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ import com.etiya.rentACarSpring.core.utilities.results.Result;
 public class CarMaintenancesController {
 	
 	private CarMaintenanceService carMaintenanceService;
-
+	@Autowired
 	public CarMaintenancesController(CarMaintenanceService carMaintenanceService) {
 		super();
 		this.carMaintenanceService = carMaintenanceService;
