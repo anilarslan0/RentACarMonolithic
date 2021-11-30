@@ -26,8 +26,7 @@ import com.etiya.rentACarSpring.businnes.request.UserRequest.UpdateUserRequest;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 
-@RestController
-@RequestMapping("api/users")
+
 public class UsersController {
 	private UserService userService;
 

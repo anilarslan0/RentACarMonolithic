@@ -1,12 +1,14 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.CarMaintenanceService;
 import com.etiya.rentACarSpring.businnes.abstracts.RentalService;
+import com.etiya.rentACarSpring.businnes.constants.Messages;
 import com.etiya.rentACarSpring.businnes.dtos.CarMaintenanceSearchListDto;
 import com.etiya.rentACarSpring.businnes.request.CarMaintenanceRequest.CreateCarMaintenanceRequest;
 import com.etiya.rentACarSpring.businnes.request.CarMaintenanceRequest.DeleteCarMaintenanceRequest;
@@ -19,10 +21,8 @@ import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.CarMaintenanceDao;
-import com.etiya.rentACarSpring.entities.Car;
+
 import com.etiya.rentACarSpring.entities.CarMaintenance;
-import com.etiya.rentACarSpring.entities.Color;
-import com.etiya.rentACarSpring.entities.Rental;
 
 @Service
 public class CarMaintenanceManager implements CarMaintenanceService {
@@ -32,18 +32,22 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 	private RentalService rentalService;
 
 	@Autowired
-	public CarMaintenanceManager(CarMaintenanceDao carMaintenanceDao, ModelMapperService modelMapperService,RentalService rentalService) {
+	public CarMaintenanceManager(CarMaintenanceDao carMaintenanceDao, ModelMapperService modelMapperService,
+			RentalService rentalService) {
 		super();
 		this.carMaintenanceDao = carMaintenanceDao;
 		this.modelMapperService = modelMapperService;
-		this.rentalService=rentalService;
-
+		this.rentalService = rentalService;
 	}
 
 	@Override
 	public DataResult<List<CarMaintenanceSearchListDto>> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<CarMaintenance> result = this.carMaintenanceDao.findAll();
+		List<CarMaintenanceSearchListDto> response = result.stream().map(
+				carMaintenance -> modelMapperService.forDto().map(carMaintenance, CarMaintenanceSearchListDto.class))
+				.collect(Collectors.toList());
+
+		return new SuccesDataResult<List<CarMaintenanceSearchListDto>>(response);
 	}
 
 	@Override
@@ -61,14 +65,16 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 
 	@Override
 	public Result Update(UpdateCarMaintenanceRequest updateCarMaintenanceRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		CarMaintenance carMaintenance = modelMapperService.forRequest().map(updateCarMaintenanceRequest,
+				CarMaintenance.class);
+		this.carMaintenanceDao.save(carMaintenance);
+		return new SuccesResult(Messages.updatedColor);
 	}
 
 	@Override
 	public Result Delete(DeleteCarMaintenanceRequest deleteCarMaintenanceRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		this.carMaintenanceDao.deleteById(deleteCarMaintenanceRequest.getCarMaintenanseId());
+		return new SuccesResult(Messages.deletedColor);
 	}
 
 	@Override
@@ -88,13 +94,13 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 		}
 		return new SuccesResult();
 	}
-	
+
 	private Result checkIfCarIsRentedNow(int carId) {
-        Result isCarReturned = rentalService.checkCarRentalStatus(carId);
-        if(!isCarReturned.isSuccess()) {
-            return new ErrorResult("Araç kirada olduğu için bakıma gönderilemez.");
-        }
-        return new SuccesResult();
-    }
+		Result isCarReturned = rentalService.checkCarRentalStatus(carId);
+		if (!isCarReturned.isSuccess()) {
+			return new ErrorResult("Araç kirada olduğu için bakıma gönderilemez.");
+		}
+		return new SuccesResult();
+	}
 
 }

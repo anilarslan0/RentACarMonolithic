@@ -44,6 +44,14 @@ public class Rental {
 	@JoinColumn (name= "user_id")
 	private User user;
 	
+	@ManyToOne
+	@JoinColumn(name = "take_city_id")
+	private City takeCity;
+
+	@ManyToOne
+	@JoinColumn(name = "return_city_id")
+	private City returnCity;
+	
 	
 	
 //	@ManyToOne(cascade = CascadeType.DETACH)

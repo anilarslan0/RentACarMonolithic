@@ -17,4 +17,5 @@ public interface UserService {
 	Result Delete(DeleteUserRequest deleteUserRequest);
 	Result existByEmail(String email);
 	DataResult<User> getById(int userId);
+	DataResult<User> getByEmail(String email);
 }

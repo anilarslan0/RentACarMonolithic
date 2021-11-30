@@ -127,4 +127,12 @@ public class CarManager implements CarService {
 		return new SuccesDataResult<List<CarSearchListDto>>(response);
 	}
 
+	@Override
+	public DataResult<List<CarSearchListDto>> getCarByCityId(Integer cityId) {
+		List<CarSearchListDto> response = this.carDao.getByCity_CityId(cityId).stream()
+				.map(car -> modelMapperService.forDto().map(car, CarSearchListDto.class)).collect(Collectors.toList());
+
+		return new SuccesDataResult<List<CarSearchListDto>>(response);
+	}
+
 }

@@ -47,7 +47,7 @@ public class CreditCardManager implements CreditCardService {
 	@Override
 	public Result add(CreateCreditCardRequest createCreditCardRequest) {
 		Result result = BusinnessRules.run(checkIfCreditCardFormatIsTrue(createCreditCardRequest.getCardNumber()),
-				checkExistCardNumber(createCreditCardRequest.getCardNumber()),ifUserWantSaveCreditCard(createCreditCardRequest.isSaved()));
+				checkExistCardNumber(createCreditCardRequest.getCardNumber()));
 		if (result != null) {
 			return result;
 		}
@@ -92,11 +92,11 @@ public class CreditCardManager implements CreditCardService {
 		}
 		return new SuccesResult();
 	}
-	
+
 	private Result ifUserWantSaveCreditCard(boolean isSaved) {
-		if(isSaved) {
+		if (isSaved) {
 			return new SuccesResult();
 		}
-		return new ErrorResult("Car is not available for maintenance");
+		return new ErrorResult("Kullanıcı Kartı Kaydetme İstemiyor");
 	}
 }

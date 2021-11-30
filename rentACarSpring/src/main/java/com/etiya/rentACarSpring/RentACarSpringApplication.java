@@ -60,12 +60,13 @@ public class RentACarSpringApplication {
 		return error;
 	}
 	
-//	@ExceptionHandler(MethodArgumentNotValidException.class)
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public ErrorResult handleNoSuchElementException(NoSuchElementException exception) {
-//		ErrorResult error=new ErrorResult("Kayıt Bulunamadı");
-//		return error;
-//	}
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorResult handleNoSuchElementException(NoSuchElementException exception){
+		
+		ErrorResult error = new ErrorResult("Kayıt bulunamadı.");
+		return error;
+	}
 	
 
 }

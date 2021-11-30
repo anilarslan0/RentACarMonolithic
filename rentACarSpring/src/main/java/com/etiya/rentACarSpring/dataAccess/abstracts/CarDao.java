@@ -37,9 +37,5 @@ public interface CarDao extends JpaRepository<Car, Integer> { // car'ın Id'sini
 			+ "From Car c Left Join  c.carMaintenances cm WHERE (cm.maintananceDate is not null AND cm.returnDate is not null) or (cm.maintananceDate is null AND cm.returnDate is null)")
 	List<CarSearchListDto> getAllWithoutMaintenanceOfCar();
 
-//	@Query(value = "SELECT c.id,c.daily_price,c.description FROM cars c\r\n"
-//			+ "				LEFT JOIN car_maintenances cm ON c.id=cm.id \r\n"
-//			+ "			WHERE (cm.maintenance_date is not null AND cm.return_date is not null) or \r\n"
-//			+ "				(cm.maintenance_date is null AND cm.return_date is null)", nativeQuery = true)
-//	List<CarSearchListDto> getAllWithoutMaintenanceOfCar();
+	List<Car> getByCity_CityId(int cityId);
 }

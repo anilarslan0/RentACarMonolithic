@@ -1,4 +1,4 @@
-package com.etiya.rentACarSpring.businnes.request.CarMaintenanceRequest;
+package com.etiya.rentACarSpring.businnes.request.InvoiceRequest;
 
 import java.sql.Date;
 
@@ -13,14 +13,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateCarMaintenanceRequest {
+public class CreateInvoiceDateRequest {
 	@NotNull
-	private int carMaintenanseId;
 	@JsonFormat(pattern = "yyyy-MM-dd")
+	private Date minDate;
 	@NotNull
-	private Date maintananceDate;
-	@NotNull
-	private Date returnDate;
-	@NotNull
-	private int carId;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private Date maxDate;
 }

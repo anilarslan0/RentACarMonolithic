@@ -63,6 +63,11 @@ public class CarsController {
 	public DataResult<List<CarDetailForColorAndBrand>> getByCar(@RequestParam("carId") Integer carId) {
 		return carService.getCarByCarId(carId);
 	}
+	
+	@GetMapping("getCarsByCityId")
+	public DataResult<List<CarSearchListDto>> getCarsByCity(@RequestParam("cityId") Integer cityId) {
+		return carService.getCarByCityId(cityId);
+	}
 
 	@GetMapping("getAllWithoutMaintenance")
 	public DataResult<List<CarSearchListDto>> getWithoutMaintenance(){	

@@ -14,14 +14,26 @@ import com.etiya.rentACarSpring.entities.complexTypes.CarDetailForColorAndBrand;
 
 public interface CarService {
 	DataResult<List<CarSearchListDto>> getAll();
+
 	DataResult<List<CarSearchListDto>> getByDailyPrice(Integer dailyPrice);
+
 	DataResult<List<CarDetailForColorAndBrand>> getCarByColor(Integer colorId);
+
 	DataResult<List<CarDetailForColorAndBrand>> getCarByBrand(Integer brandId);
+
 	DataResult<List<CarDetailForColorAndBrand>> getCarByCarId(Integer carId);
+
 	DataResult<List<CarDetail>> getCarWithBrandAndColorDetails();
+
 	DataResult<Car> getbyId(int carId);
+
 	Result Save(CreateCarRequest createCarRequest);
+
 	Result Update(UpdateCarRequest updateCarRequest);
+
 	Result Delete(DeleteCarRequest deleteCarRequest);
+
 	DataResult<List<CarSearchListDto>> getWithoutMaintenanceOfCar();
+
+	DataResult<List<CarSearchListDto>> getCarByCityId(Integer cityId);
 }

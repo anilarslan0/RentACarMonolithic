@@ -1,5 +1,6 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.etiya.rentACarSpring.businnes.abstracts.InvoiceService;
 import com.etiya.rentACarSpring.businnes.constants.Messages;
 import com.etiya.rentACarSpring.businnes.dtos.InvoiceSearchListDto;
+import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.CreateInvoiceDateRequest;
 import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.CreateInvoiceRequest;
 import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.DeleteInvoiceRequest;
 import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.UpdateInvoiceRequest;
@@ -19,6 +21,7 @@ import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.InvoiceDao;
 import com.etiya.rentACarSpring.entities.Invoice;
+import com.etiya.rentACarSpring.entities.complexTypes.CarDetailForColorAndBrand;
 
 @Service
 public class InvoiceManager implements InvoiceService {
@@ -63,6 +66,30 @@ public class InvoiceManager implements InvoiceService {
 		return new SuccesResult(Messages.deleteInvoice);
 
 	}
+
+	@Override
+	public DataResult<List<InvoiceSearchListDto>> getInvoiceByDate(CreateInvoiceDateRequest createInvoiceDateRequest) {
+		List<Invoice> invoices = this.invoiceDao.getByCreationDateBetween(createInvoiceDateRequest.getMinDate(),
+				createInvoiceDateRequest.getMaxDate());
+
+		List<Invoice> result = this.invoiceDao.getByCreationDateBetween(createInvoiceDateRequest.getMinDate(), createInvoiceDateRequest.getMaxDate());
+		List<InvoiceSearchListDto> response = result.stream()
+				.map(invoice -> modelMapperService.forDto().map(invoice, InvoiceSearchListDto.class))
+				.collect(Collectors.toList());
+
+		return new SuccesDataResult<List<InvoiceSearchListDto>>(response);
+	}
+
+	@Override
+	public DataResult<List<InvoiceSearchListDto>> getInvoiceByUserId(int userId) {
+		List<InvoiceSearchListDto> response = this.invoiceDao.getInvoiceByUser_UserId(userId).stream()
+				.map(invoice -> modelMapperService.forDto().map(invoice, InvoiceSearchListDto.class))
+				.collect(Collectors.toList());
+
+		return new SuccesDataResult<List<InvoiceSearchListDto>>(response);
+	}
+
+	
 
 	
 

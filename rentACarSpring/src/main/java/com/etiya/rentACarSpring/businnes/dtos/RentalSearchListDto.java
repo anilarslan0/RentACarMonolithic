@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RentalSearchListDto {
 
-//	private int rentalId;
+	private int rentalId;
 	
 	private int carId;
 
-//	private Date rentDate;
+	private Date rentDate;
 
 	private Date returnDate;
 }

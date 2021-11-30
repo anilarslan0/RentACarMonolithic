@@ -10,27 +10,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateRentalRequest {
 
-	@JsonIgnore
 	private int rentalId;
-	
-	@NotNull
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date rentDate;
 
-	
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date returnDate;
 
-	@NotNull
-	private int userId;
+	private int returnCityId;
 
-	@NotNull
-	private int carId;
-	
-	
 }

@@ -6,14 +6,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.CarMaintenanceService;
 import com.etiya.rentACarSpring.businnes.abstracts.CarService;
 import com.etiya.rentACarSpring.businnes.abstracts.CreditCardService;
+import com.etiya.rentACarSpring.businnes.abstracts.InvoiceService;
 import com.etiya.rentACarSpring.businnes.abstracts.RentalService;
 import com.etiya.rentACarSpring.businnes.abstracts.UserService;
 import com.etiya.rentACarSpring.businnes.constants.Messages;
+import com.etiya.rentACarSpring.businnes.dtos.CarMaintenanceSearchListDto;
 import com.etiya.rentACarSpring.businnes.dtos.CreditCardSearchListDto;
 import com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto;
 import com.etiya.rentACarSpring.businnes.fakeServices.findexService;
@@ -42,18 +45,22 @@ public class RentalManager implements RentalService {
 	private CarService carService;
 	private UserService userService;
 	private CreditCardService creditcardService;
-	
+	private InvoiceService invoiceService;
+	private CarMaintenanceService carMaintenanceService;
 
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CarService carService,
-			UserService userService, CreditCardService creditcardService) {
+			UserService userService, CreditCardService creditcardService, InvoiceService invoiceService,
+			@Lazy CarMaintenanceService carMaintenanceService) {
+
 		super();
 		this.rentalDao = rentalDao;
 		this.modelMapperService = modelMapperService;
 		this.carService = carService;
 		this.userService = userService;
 		this.creditcardService = creditcardService;
-	
+		this.invoiceService = invoiceService;
+		this.carMaintenanceService = carMaintenanceService;
 
 	}
 
@@ -70,7 +77,8 @@ public class RentalManager implements RentalService {
 	@Override
 	public Result Add(CreateRentalRequest createRentalRequest) {
 		Result result = BusinnessRules.run(checkCarRentalStatus(createRentalRequest.getCarId()),
-				checkUserAndCarFindexScore(createRentalRequest.getUserId(), createRentalRequest.getCarId()));
+				checkUserAndCarFindexScore(createRentalRequest.getUserId(), createRentalRequest.getCarId()),
+				carMaintenanceService.CheckIfCarIsAtMaintenance(createRentalRequest.getCarId()));
 
 		if (result != null) {
 			return result;
@@ -78,12 +86,20 @@ public class RentalManager implements RentalService {
 
 		Rental rental = modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		this.rentalDao.save(rental);
+
 		return new SuccesResult(Messages.succesRental);
 	}
 
 	@Override
 	public Result Update(UpdateRentalRequest updateRentalRequest) {
 		Rental rental = modelMapperService.forRequest().map(updateRentalRequest, Rental.class);
+
+		Rental result = this.rentalDao.getByRentalId(updateRentalRequest.getRentalId());
+		rental.setRentDate(result.getRentDate());
+		rental.setTakeCity(result.getTakeCity());
+		rental.setUser(result.getUser());
+		rental.setCar(result.getCar());
+
 		this.rentalDao.save(rental);
 		return new SuccesResult(Messages.updatedRental);
 	}
@@ -96,7 +112,6 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public DataResult<List<Rental>> getByCar(int carId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -120,7 +135,5 @@ public class RentalManager implements RentalService {
 
 		return new SuccesResult();
 	}
-	
-	
 
 }

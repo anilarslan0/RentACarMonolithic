@@ -15,7 +15,7 @@ public class RentalDetail {
 
 	private Date returnDate;
 	
-	private int carId;
+	private Date carId;
 	
 	
 }

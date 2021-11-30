@@ -69,7 +69,7 @@ public class AuthManager implements AuthService {
 
 	@Override
 	public Result Login(LoginRequest loginRequest) {
-		var result = BusinnessRules.run(checkCustomerEmailIsTrue(loginRequest));
+		var result = BusinnessRules.run(checkCustomerEmailIsTrue(loginRequest),checkCustomerPasswordIsTrue(loginRequest));
 
 		if (result != null) {
 			return result;
@@ -82,6 +82,18 @@ public class AuthManager implements AuthService {
 	public Result checkCustomerEmailIsTrue(LoginRequest loginRequest) {
 		if (this.userService.existByEmail(loginRequest.getEmail()).isSuccess()) {
 			return new ErrorResult(Messages.mailDontFind);
+		}
+		return new SuccesResult();
+	}
+	
+	private Result checkCustomerPasswordIsTrue(LoginRequest loginRequest) {
+
+		if (checkCustomerEmailIsTrue(loginRequest).isSuccess()) {
+
+			if (!this.userService.getByEmail(loginRequest.getEmail()).getData().getPassword()
+					.equals(loginRequest.getPassword())) {
+				return new ErrorResult("Hatalı Şifre Girdiniz!");
+			}
 		}
 		return new SuccesResult();
 	}

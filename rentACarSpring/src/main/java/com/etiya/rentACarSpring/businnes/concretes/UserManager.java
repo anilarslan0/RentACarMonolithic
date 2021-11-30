@@ -13,6 +13,7 @@ import com.etiya.rentACarSpring.businnes.request.UserRequest.DeleteUserRequest;
 import com.etiya.rentACarSpring.businnes.request.UserRequest.UpdateUserRequest;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
+import com.etiya.rentACarSpring.core.utilities.results.ErrorDataResult;
 import com.etiya.rentACarSpring.core.utilities.results.ErrorResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
@@ -67,7 +68,7 @@ public class UserManager implements UserService {
 
 	@Override
 	public Result existByEmail(String email) {
-		if (	this.userDao.existsByEmail(email)) {
+		if (this.userDao.existsByEmail(email)) {
 			return new ErrorResult("Mail mevcut değil");
 		}
 		return new SuccesResult();
@@ -76,6 +77,14 @@ public class UserManager implements UserService {
 	@Override
 	public DataResult<User> getById(int userId) {
 		return new SuccesDataResult<User>(this.userDao.getById(userId));
+	}
+
+	@Override
+	public DataResult<User> getByEmail(String email) {
+		if (this.userDao.existsByEmail(email)) {
+			return new SuccesDataResult<User>(this.userDao.getByEmail(email));
+		}
+		return new ErrorDataResult<User>(null);
 	}
 
 }
