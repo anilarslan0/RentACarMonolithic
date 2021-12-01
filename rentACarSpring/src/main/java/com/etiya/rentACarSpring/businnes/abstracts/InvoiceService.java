@@ -8,6 +8,9 @@ import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.CreateInvoiceDat
 import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.CreateInvoiceRequest;
 import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.DeleteInvoiceRequest;
 import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.UpdateInvoiceRequest;
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.CreateRentalRequest;
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarUpdateRequest;
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.UpdateRentalRequest;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.entities.Invoice;
@@ -16,7 +19,7 @@ import com.etiya.rentACarSpring.entities.complexTypes.CarDetailForColorAndBrand;
 
 public interface InvoiceService {
 	DataResult<List<InvoiceSearchListDto>> getAll();
-	Result Add(CreateInvoiceRequest createRentalRequest);
+	Result Add(DropOffCarUpdateRequest dropOffCarUpdateRequest);
 	Result Update(UpdateInvoiceRequest updateInvoiceRequest);
 	Result Delete(DeleteInvoiceRequest deleteInvoiceRequest);
 	DataResult<List<InvoiceSearchListDto>> getInvoiceByDate(CreateInvoiceDateRequest createInvoiceDateRequest);

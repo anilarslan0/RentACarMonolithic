@@ -2,8 +2,13 @@ package com.etiya.rentACarSpring.businnes.concretes;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACarSpring.businnes.abstracts.RentalService;
+import com.etiya.rentACarSpring.businnes.abstracts.UserService;
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.CreateRentalRequest;
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +33,17 @@ public class InvoiceManager implements InvoiceService {
 
 	private InvoiceDao invoiceDao;
 	private ModelMapperService modelMapperService;
+	private UserService userService;
+	private RentalService rentalService;
 
 	@Autowired
-	public InvoiceManager(InvoiceDao invoiceDao, ModelMapperService modelMapperService) {
+	public InvoiceManager(InvoiceDao invoiceDao, ModelMapperService modelMapperService
+			,UserService userService,RentalService rentalService) {
 		super();
 		this.invoiceDao = invoiceDao;
 		this.modelMapperService = modelMapperService;
+		this.userService=userService;
+		this.rentalService=rentalService;
 	}
 
 	@Override
@@ -47,8 +57,20 @@ public class InvoiceManager implements InvoiceService {
 	}
 
 	@Override
-	public Result Add(CreateInvoiceRequest createRentalRequest) {
-		Invoice invoice = modelMapperService.forRequest().map(createRentalRequest, Invoice.class);
+	public Result Add(DropOffCarUpdateRequest dropOffCarUpdateRequest) {
+
+		Invoice invoice=new Invoice();
+		//Random rand=new Random();
+
+
+		invoice.setCreateDate(new java.sql.Date(new java.util.Date().getTime()));
+		invoice.setInvoiceNumber("fdsfdsfds8042");
+		//invoice.setUser(userService.getByUserId(rentalService.getById());
+		
+
+
+		//Invoice invoice2 = modelMapperService.forRequest().map(dropOffCarUpdateRequest, Invoice.class);
+
 		this.invoiceDao.save(invoice);
 		return new SuccesResult(Messages.addedInvoice);
 	}

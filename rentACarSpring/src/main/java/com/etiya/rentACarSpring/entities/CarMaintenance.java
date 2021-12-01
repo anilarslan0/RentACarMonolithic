@@ -35,7 +35,7 @@ public class CarMaintenance {
 	@Column (name="return_date")
 	private Date returnDate;
 	
-	@ManyToOne(cascade = CascadeType.DETACH) 
+	@ManyToOne
 	@JoinColumn (name= "id")
 	private Car car;
 }

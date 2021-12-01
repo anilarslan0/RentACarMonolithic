@@ -10,7 +10,7 @@ import com.etiya.rentACarSpring.entities.Car;
 import com.etiya.rentACarSpring.entities.complexTypes.CarDetail;
 import com.etiya.rentACarSpring.entities.complexTypes.CarDetailForColorAndBrand;
 
-public interface CarDao extends JpaRepository<Car, Integer> { // car'ın Id'sinin veri tipi integer
+public interface CarDao extends JpaRepository<Car, Integer> {
 	List<Car> getByDailyPrice(Integer dailyPrice);
 
 	@Query("Select new com.etiya.rentACarSpring.entities.complexTypes.CarDetail"

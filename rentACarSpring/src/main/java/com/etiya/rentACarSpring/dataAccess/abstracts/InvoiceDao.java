@@ -18,4 +18,6 @@ public interface InvoiceDao extends JpaRepository<Invoice, Integer> {
 	
 
 	List<Invoice> getInvoiceByUser_UserId(int userId);
+
+
 }

@@ -30,6 +30,6 @@ public class CorparateCustomer extends User{
 	@Column(name = "tax_number")
 	private String taxNumber;
 
-	@OneToMany(mappedBy = "corparateCustomer")
-	private List<Rental> rentals;
+	//@OneToMany(mappedBy = "corparateCustomer")
+	//private List<Rental> rentals;
 }

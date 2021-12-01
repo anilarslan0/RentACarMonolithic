@@ -1,10 +1,8 @@
 package com.etiya.rentACarSpring.core.utilities.adapter;
 
-import java.util.Random;
-
 import org.springframework.stereotype.Service;
 
-import com.etiya.rentACarSpring.businnes.fakeServices.findexService;
+import com.etiya.rentACarSpring.fakeServices.findexService;
 
 @Service
 public class findexScroreAdapter implements findexScoreService {
@@ -12,17 +10,25 @@ public class findexScroreAdapter implements findexScoreService {
 	findexService findexService=new findexService();
 	
 	@Override
-	public Integer sendUserFindexScore() {
+	public Integer getIndividualFindexScore(String idendtityNumber) {
 
-		return	findexService.getCustomerScore();
+		return	findexService.getIndividualCustomerScore(idendtityNumber);
 	}
-	
+
+	@Override
+	public Integer getCorparateFindexScore(String taxNumber) {
+		return findexService.getCorparateCustomerScore(taxNumber) ;
+	}
+
+
 	@Override
 	public Integer sendCarFindexScore() {
 
 		return	findexService.getCarScore();
 	}
 
+
+	
 
 	
 

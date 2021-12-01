@@ -1,10 +1,9 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
-import java.sql.Date;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.UpdateRentalRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -16,14 +15,10 @@ import com.etiya.rentACarSpring.businnes.abstracts.InvoiceService;
 import com.etiya.rentACarSpring.businnes.abstracts.RentalService;
 import com.etiya.rentACarSpring.businnes.abstracts.UserService;
 import com.etiya.rentACarSpring.businnes.constants.Messages;
-import com.etiya.rentACarSpring.businnes.dtos.CarMaintenanceSearchListDto;
-import com.etiya.rentACarSpring.businnes.dtos.CreditCardSearchListDto;
 import com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto;
-import com.etiya.rentACarSpring.businnes.fakeServices.findexService;
-import com.etiya.rentACarSpring.businnes.request.CreditCardRequest.CreateCreditCardRequest;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.CreateRentalRequest;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.DeleteRentaRequest;
-import com.etiya.rentACarSpring.businnes.request.RentalRequest.UpdateRentalRequest;
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarUpdateRequest;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
@@ -33,9 +28,7 @@ import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.RentalDao;
 import com.etiya.rentACarSpring.entities.Car;
-import com.etiya.rentACarSpring.entities.CarMaintenance;
 import com.etiya.rentACarSpring.entities.Rental;
-import com.etiya.rentACarSpring.entities.complexTypes.RentalDetail;
 
 @Service
 public class RentalManager implements RentalService {
@@ -50,7 +43,7 @@ public class RentalManager implements RentalService {
 
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CarService carService,
-			UserService userService, CreditCardService creditcardService, InvoiceService invoiceService,
+			UserService userService, CreditCardService creditcardService,@Lazy InvoiceService invoiceService,
 			@Lazy CarMaintenanceService carMaintenanceService) {
 
 		super();
@@ -85,24 +78,37 @@ public class RentalManager implements RentalService {
 		}
 
 		Rental rental = modelMapperService.forRequest().map(createRentalRequest, Rental.class);
+
 		this.rentalDao.save(rental);
 
 		return new SuccesResult(Messages.succesRental);
 	}
 
 	@Override
-	public Result Update(UpdateRentalRequest updateRentalRequest) {
-		Rental rental = modelMapperService.forRequest().map(updateRentalRequest, Rental.class);
+	public Result dropOffCarUpdate(DropOffCarUpdateRequest dropOffCarUpdateRequest) {
+		Rental rental = modelMapperService.forRequest().map(dropOffCarUpdateRequest, Rental.class);
 
-		Rental result = this.rentalDao.getByRentalId(updateRentalRequest.getRentalId());
+		Car car = this.carService.getbyId(dropOffCarUpdateRequest.getCarId()).getData();
+
+
+		Rental result = this.rentalDao.getByRentalId(dropOffCarUpdateRequest.getRentalId());
 		rental.setRentDate(result.getRentDate());
 		rental.setTakeCity(result.getTakeCity());
 		rental.setUser(result.getUser());
 		rental.setCar(result.getCar());
+		car.setKilometer(rental.getReturnKilometer());
+		car.setCity(rental.getReturnCity());
 
 		this.rentalDao.save(rental);
-		return new SuccesResult(Messages.updatedRental);
+
+
+			this.invoiceService.Add(dropOffCarUpdateRequest);
+			return new SuccesResult("Rental log is added and renting bill is created.");
+
+
+
 	}
+
 
 	@Override
 	public Result Delete(DeleteRentaRequest deleteRentalRequest) {
@@ -125,6 +131,11 @@ public class RentalManager implements RentalService {
 			}
 		}
 		return new SuccesResult();
+	}
+
+	@Override
+	public Rental getById(int rentalId) {
+		return this.rentalDao.getById(rentalId);
 	}
 
 	private Result checkUserAndCarFindexScore(int userId, int carId) {

@@ -42,7 +42,7 @@ public class Invoice {
 	@Column(name = "total_rent_day")
 	private int totalRentDay;
 
-	@ManyToOne(cascade = CascadeType.DETACH) 
+	@ManyToOne
 	@JoinColumn (name= "user_id")
 	private User user;
 

@@ -28,7 +28,7 @@ public class Image {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int imageId;
 
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne
 	@JoinColumn(name = "id")
 	private Car car;
 

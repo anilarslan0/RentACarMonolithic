@@ -10,16 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.rentACarSpring.businnes.abstracts.UserService;
-import com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto;
 import com.etiya.rentACarSpring.businnes.dtos.UserSearchListDto;
-import com.etiya.rentACarSpring.businnes.request.CarRequest.CreateCarRequest;
-import com.etiya.rentACarSpring.businnes.request.RentalRequest.CreateRentalRequest;
-import com.etiya.rentACarSpring.businnes.request.RentalRequest.DeleteRentaRequest;
-import com.etiya.rentACarSpring.businnes.request.RentalRequest.UpdateRentalRequest;
 import com.etiya.rentACarSpring.businnes.request.UserRequest.CreateUserRequest;
 import com.etiya.rentACarSpring.businnes.request.UserRequest.DeleteUserRequest;
 import com.etiya.rentACarSpring.businnes.request.UserRequest.UpdateUserRequest;

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CarDetailForColorAndBrand {
+	
 	private int carId;
 	
 	private int brandId;

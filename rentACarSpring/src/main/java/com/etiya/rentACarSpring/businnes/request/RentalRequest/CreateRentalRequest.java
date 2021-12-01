@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 @Data
 @AllArgsConstructor
@@ -32,6 +33,8 @@ public class CreateRentalRequest {
 
 	@NotNull
 	private int carId;
+
+	private int returnKilometer;
 
 	
 }

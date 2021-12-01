@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,10 +49,16 @@ public class Car {
 	
 	@Column(name = "findex_score")
 	private int findexScore;
+
+	@Column(name = "kilometer")
+	private String kilometer;
 	
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
-	
+
+	@OneToMany(mappedBy = "car")
+	private List<CarDamage> carDamages;
+
 	@OneToMany(mappedBy="car")
 	private List<Image> images;
 	

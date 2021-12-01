@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,9 +49,9 @@ public class InvoicesController {
 	}
 
 	@PostMapping("add")
-	public Result add(@RequestBody @Valid CreateInvoiceRequest createInvoiceRequest) {
+	public Result add(@RequestBody @Valid DropOffCarUpdateRequest dropOffCarUpdateRequest) {
 
-		return this.invoiceService.Add(createInvoiceRequest);
+		return this.invoiceService.Add(dropOffCarUpdateRequest);
 	}
 
 	@PutMapping("update")

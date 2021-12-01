@@ -25,24 +25,20 @@ public class CreditCard {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="credit_card_id")
+	@Column(name = "credit_card_id")
 	private int creditCardId;
-	
-	@Column(name="card_name")
+
+	@Column(name = "card_name")
 	private String cardName;
-	
-	@Column(name="card_number")
+
+	@Column(name = "card_number")
 	private String cardNumber;
-	
-	@Column(name="cvv")
+
+	@Column(name = "cvv")
 	private String cvv;
-	
-	@ManyToOne(cascade = CascadeType.DETACH)
+
+	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
-	@Column(name="is_saved")
-	private boolean isSaved=false;
-	
 
 }

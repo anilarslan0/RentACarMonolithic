@@ -87,4 +87,9 @@ public class UserManager implements UserService {
 		return new ErrorDataResult<User>(null);
 	}
 
+	@Override
+	public User getByUserId(int userId) {
+		return userDao.getById(userId);
+	}
+
 }

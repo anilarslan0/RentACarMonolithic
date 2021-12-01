@@ -24,8 +24,10 @@ public class CreateCorparateRequest {
 	@Email
 	private String email;
 	@NotNull
-	private String password; 
+	private String password;
 	@NotNull
+	@JsonIgnore
 	private int findexScore;
+
 
 }

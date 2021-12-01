@@ -35,12 +35,15 @@ public class Rental {
 
 	@Column (name="return_date")
 	private Date returnDate;
-	
-	@ManyToOne(cascade = CascadeType.DETACH) 
+
+	@Column(name = "return_kilometer")
+	private  String returnKilometer;
+
+	@ManyToOne
 	@JoinColumn (name= "id")
 	private Car car;
 	
-	@ManyToOne(cascade = CascadeType.DETACH) 
+	@ManyToOne
 	@JoinColumn (name= "user_id")
 	private User user;
 	

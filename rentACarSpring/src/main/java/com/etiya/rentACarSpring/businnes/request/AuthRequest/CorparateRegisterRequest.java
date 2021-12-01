@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,9 @@ public class CorparateRegisterRequest {
 	@NotNull
 	private String password;
 	@NotNull
-	private String taxName;
+	private String taxNumber;
+	@JsonIgnore
+	private int findexScore;
 
 
 	
