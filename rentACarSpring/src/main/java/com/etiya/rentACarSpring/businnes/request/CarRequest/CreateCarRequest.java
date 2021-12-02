@@ -21,10 +21,13 @@ public class CreateCarRequest {
 	private int carId;
 	
 	@NotNull
-	private int color_Id;
+	private int colorId;
 	
 	@NotNull
-	private int brand_Id;
+	private int brandId;
+
+	@NotNull
+	private int cityId;
 	
 	@NotNull
 	@Min(100)	

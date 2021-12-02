@@ -3,7 +3,6 @@ package com.etiya.rentACarSpring.businnes.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.etiya.rentACarSpring.businnes.request.RentalRequest.UpdateRentalRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -103,10 +102,7 @@ public class RentalManager implements RentalService {
 
 
 			this.invoiceService.Add(dropOffCarUpdateRequest);
-			return new SuccesResult("Rental log is added and renting bill is created.");
-
-
-
+			return new SuccesResult("Araç kiradan döndü ve fatura oluşturuldu.");
 	}
 
 
@@ -146,5 +142,7 @@ public class RentalManager implements RentalService {
 
 		return new SuccesResult();
 	}
+
+
 
 }

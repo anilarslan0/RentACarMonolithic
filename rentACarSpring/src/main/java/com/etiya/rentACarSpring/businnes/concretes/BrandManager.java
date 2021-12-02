@@ -15,7 +15,6 @@ import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.BrandDao;
 import com.etiya.rentACarSpring.entities.Brand;
-import com.etiya.rentACarSpring.entities.Car;
 
 @Service
 public class BrandManager implements BrandService {

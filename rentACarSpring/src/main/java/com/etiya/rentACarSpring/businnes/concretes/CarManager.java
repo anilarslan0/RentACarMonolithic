@@ -1,7 +1,6 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +31,11 @@ public class CarManager implements CarService {
 	private findexScoreService findexScoreService;
 
 	@Autowired
-	public CarManager(CarDao carDao, ModelMapperService modelMapperService) {
+	public CarManager(CarDao carDao, ModelMapperService modelMapperService,findexScoreService findexScoreService) {
 		super();
 		this.carDao = carDao;
 		this.modelMapperService = modelMapperService;
+		this.findexScoreService=findexScoreService;
 	}
 
 	@Override

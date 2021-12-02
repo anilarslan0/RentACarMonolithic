@@ -1,5 +1,7 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
+import com.etiya.rentACarSpring.core.utilities.results.DataResult;
+import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -45,6 +47,11 @@ public class CityManager implements CityService {
 	public Result delete(DeleteCityRequest deleteCityRequest) {
 		this.cityDao.deleteById(deleteCityRequest.getCityId());
 		return new SuccesResult(Messages.deletedCity);
+	}
+
+	@Override
+	public DataResult<City> getbyId(int cityId) {
+		return new SuccesDataResult<City>(this.cityDao.getById(cityId));
 	}
 
 }

@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.ImageService;
 import com.etiya.rentACarSpring.businnes.constants.FilePath;
-import com.etiya.rentACarSpring.businnes.dtos.CarSearchListDto;
 import com.etiya.rentACarSpring.businnes.dtos.ImageSearchListDto;
-import com.etiya.rentACarSpring.businnes.request.ImageRequest.CreateImageRequest;
-import com.etiya.rentACarSpring.businnes.request.ImageRequest.DeleteImageRequest;
-import com.etiya.rentACarSpring.businnes.request.ImageRequest.UpdateImageRequest;
+import com.etiya.rentACarSpring.businnes.request.CityRequest.ImageRequest.CreateImageRequest;
+import com.etiya.rentACarSpring.businnes.request.CityRequest.ImageRequest.DeleteImageRequest;
+import com.etiya.rentACarSpring.businnes.request.CityRequest.ImageRequest.UpdateImageRequest;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.helpers.FileHelper;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;

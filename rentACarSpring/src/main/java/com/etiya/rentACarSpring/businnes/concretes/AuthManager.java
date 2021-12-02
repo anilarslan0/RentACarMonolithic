@@ -12,9 +12,8 @@ import com.etiya.rentACarSpring.businnes.constants.Messages;
 import com.etiya.rentACarSpring.businnes.request.AuthRequest.CorparateRegisterRequest;
 import com.etiya.rentACarSpring.businnes.request.AuthRequest.IndividualRegisterRequest;
 import com.etiya.rentACarSpring.businnes.request.AuthRequest.LoginRequest;
-import com.etiya.rentACarSpring.businnes.request.CorparateCustomerRequest.CreateCorparateRequest;
+import com.etiya.rentACarSpring.businnes.request.IndividualCustomerRequest.CorparateCustomerRequest.CreateCorparateRequest;
 import com.etiya.rentACarSpring.businnes.request.IndividualCustomerRequest.CreateIndividualCustomerRequest;
-import com.etiya.rentACarSpring.businnes.request.UserRequest.CreateUserRequest;
 
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
@@ -62,7 +61,7 @@ public class AuthManager implements AuthService {
 
 		CreateCorparateRequest createCorparateRequest = modelMapperService.forRequest().map(corparateRegisterRequest,
 				CreateCorparateRequest.class);
-		corparateRegisterRequest.setFindexScore(findexScoreService.getCorparateFindexScore(corparateRegisterRequest.getTaxNumber()));
+		createCorparateRequest.setFindexScore(findexScoreService.getCorparateFindexScore(corparateRegisterRequest.getTaxNumber()));
 		this.corparateCustomerService.Add(createCorparateRequest);
 		return new SuccesResult(Messages.corparateRegister);
 	}

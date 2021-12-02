@@ -26,7 +26,7 @@ public class Color {
 	@Column(name = "colorId")
 	private int colorId;
 	
-	@Column(name = "colorName")
+	@Column(name = "color_name")
 	private String colorName;
 	
 	@OneToMany(mappedBy = "color")

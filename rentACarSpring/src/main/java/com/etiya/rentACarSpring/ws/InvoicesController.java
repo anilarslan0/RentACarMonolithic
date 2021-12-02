@@ -18,18 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.etiya.rentACarSpring.businnes.abstracts.InvoiceService;
-import com.etiya.rentACarSpring.businnes.dtos.CarSearchListDto;
 import com.etiya.rentACarSpring.businnes.dtos.InvoiceSearchListDto;
-import com.etiya.rentACarSpring.businnes.request.CarRequest.CreateCarRequest;
-import com.etiya.rentACarSpring.businnes.request.CarRequest.DeleteCarRequest;
-import com.etiya.rentACarSpring.businnes.request.CarRequest.UpdateCarRequest;
 import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.CreateInvoiceDateRequest;
-import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.CreateInvoiceRequest;
 import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.DeleteInvoiceRequest;
 import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.UpdateInvoiceRequest;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
-import com.etiya.rentACarSpring.entities.complexTypes.CarDetailForColorAndBrand;
 
 @RestController
 @RequestMapping("api/invoices")
@@ -65,7 +59,7 @@ public class InvoicesController {
 	}
 
 	@GetMapping("getInvoiceByDate")
-	public DataResult<List<InvoiceSearchListDto>> getCarByColor(@RequestParam("minDate") Date minDate,
+	public DataResult<List<InvoiceSearchListDto>> getInvoiceByDate(@RequestParam("minDate") Date minDate,
 			@RequestParam("maxDate") Date maxDate) throws ParseException {
 
 		CreateInvoiceDateRequest createInvoiceDateRequest = new CreateInvoiceDateRequest();
