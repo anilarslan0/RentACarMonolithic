@@ -12,7 +12,7 @@ import com.etiya.rentACarSpring.businnes.dtos.CarSearchListDto;
 import com.etiya.rentACarSpring.businnes.request.CarRequest.CreateCarRequest;
 import com.etiya.rentACarSpring.businnes.request.CarRequest.DeleteCarRequest;
 import com.etiya.rentACarSpring.businnes.request.CarRequest.UpdateCarRequest;
-import com.etiya.rentACarSpring.core.utilities.adapter.findexScoreService;
+import com.etiya.rentACarSpring.core.utilities.adapter.findexScoreServiceAdapter.findexScoreService;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;

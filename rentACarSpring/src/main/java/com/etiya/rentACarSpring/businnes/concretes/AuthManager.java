@@ -20,7 +20,7 @@ import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.core.utilities.results.ErrorResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
-import com.etiya.rentACarSpring.core.utilities.adapter.findexScoreService;
+import com.etiya.rentACarSpring.core.utilities.adapter.findexScoreServiceAdapter.findexScoreService;
 
 @Service
 public class AuthManager implements AuthService {

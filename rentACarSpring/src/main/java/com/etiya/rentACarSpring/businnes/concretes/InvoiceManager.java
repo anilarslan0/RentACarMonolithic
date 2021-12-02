@@ -2,6 +2,8 @@ package com.etiya.rentACarSpring.businnes.concretes;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.etiya.rentACarSpring.businnes.abstracts.*;
@@ -61,8 +63,15 @@ public class InvoiceManager implements InvoiceService {
 		//Random rand=new Random();
 
 
+
 		invoice.setCreateDate(new java.sql.Date(new java.util.Date().getTime()));
-		invoice.setInvoiceNumber("REV"+"00000");
+		long unixTime = System.currentTimeMillis() / 1000L;
+		String unique_no=Long.toHexString(unixTime).toUpperCase();
+
+		long unixTime2 = System.currentTimeMillis() / 1000L;
+		String unique_no2=Long.toHexString(unixTime).toUpperCase();
+
+		invoice.setInvoiceNumber("REV"+unique_no+"%"+unique_no2+"#");
 
 		Date rentDateForInvoice= (Date)(rentalService.getById(dropOffCarUpdateRequest.getRentalId()).getRentDate());
 		//int  userIdForInvoice=(int)(rentalService.getById(dropOffCarUpdateRequest.getRentalId()).getUser().getUserId());

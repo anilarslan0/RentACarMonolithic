@@ -1,4 +1,4 @@
-package com.etiya.rentACarSpring.fakeServices;
+package com.etiya.rentACarSpring.core.utilities.adapter.fakeServices;
 
 import java.util.Random;
 

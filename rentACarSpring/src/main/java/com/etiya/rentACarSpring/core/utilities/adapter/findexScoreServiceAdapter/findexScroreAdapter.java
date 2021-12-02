@@ -1,8 +1,8 @@
-package com.etiya.rentACarSpring.core.utilities.adapter;
+package com.etiya.rentACarSpring.core.utilities.adapter.findexScoreServiceAdapter;
 
 import org.springframework.stereotype.Service;
 
-import com.etiya.rentACarSpring.fakeServices.findexService;
+import com.etiya.rentACarSpring.core.utilities.adapter.fakeServices.findexService;
 
 @Service
 public class findexScroreAdapter implements findexScoreService {

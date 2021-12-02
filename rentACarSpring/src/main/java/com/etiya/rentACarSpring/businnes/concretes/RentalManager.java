@@ -3,6 +3,10 @@ package com.etiya.rentACarSpring.businnes.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACarSpring.businnes.dtos.CreditCardSearchListDto;
+import com.etiya.rentACarSpring.businnes.request.PosServiceRequest;
+import com.etiya.rentACarSpring.core.utilities.adapter.posServiceAdapter.posSystemService;
+import com.etiya.rentACarSpring.entities.CreditCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -39,11 +43,12 @@ public class RentalManager implements RentalService {
 	private CreditCardService creditcardService;
 	private InvoiceService invoiceService;
 	private CarMaintenanceService carMaintenanceService;
+	private posSystemService posSystemService;
 
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CarService carService,
 			UserService userService, CreditCardService creditcardService,@Lazy InvoiceService invoiceService,
-			@Lazy CarMaintenanceService carMaintenanceService) {
+			@Lazy CarMaintenanceService carMaintenanceService,posSystemService posSystemService) {
 
 		super();
 		this.rentalDao = rentalDao;
@@ -53,6 +58,7 @@ public class RentalManager implements RentalService {
 		this.creditcardService = creditcardService;
 		this.invoiceService = invoiceService;
 		this.carMaintenanceService = carMaintenanceService;
+		this.posSystemService=posSystemService;
 
 	}
 
@@ -70,7 +76,8 @@ public class RentalManager implements RentalService {
 	public Result Add(CreateRentalRequest createRentalRequest) {
 		Result result = BusinnessRules.run(checkCarRentalStatus(createRentalRequest.getCarId()),
 				checkUserAndCarFindexScore(createRentalRequest.getUserId(), createRentalRequest.getCarId()),
-				carMaintenanceService.CheckIfCarIsAtMaintenance(createRentalRequest.getCarId()));
+				carMaintenanceService.CheckIfCarIsAtMaintenance(createRentalRequest.getCarId())
+				);
 
 		if (result != null) {
 			return result;
@@ -139,6 +146,20 @@ public class RentalManager implements RentalService {
 				.getFindexScore()) {
 			return new ErrorResult("Findex Puanı yeterli değildir.");
 		}
+
+		return new SuccesResult();
+	}
+
+
+	private Result checkCreditCardBalance(CreditCardSearchListDto creditCardSearchListDto, double price){
+
+		PosServiceRequest fakePosServiceRequest = new PosServiceRequest();
+		fakePosServiceRequest.setCardNumber(creditCardSearchListDto.getCardNumber());
+		fakePosServiceRequest.setPrice(price);
+		if (this.posSystemService.withdraw(fakePosServiceRequest)){
+			return  new ErrorResult("Limit Yeterli Değil");
+		}
+
 
 		return new SuccesResult();
 	}
