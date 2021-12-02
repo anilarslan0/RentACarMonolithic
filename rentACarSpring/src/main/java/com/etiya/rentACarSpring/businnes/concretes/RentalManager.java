@@ -159,8 +159,6 @@ public class RentalManager implements RentalService {
 		if (this.posSystemService.withdraw(fakePosServiceRequest)){
 			return  new ErrorResult("Limit Yeterli Değil");
 		}
-
-
 		return new SuccesResult();
 	}
 

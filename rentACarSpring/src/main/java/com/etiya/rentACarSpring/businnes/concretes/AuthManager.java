@@ -46,6 +46,11 @@ public class AuthManager implements AuthService {
 
 	@Override
 	public Result individualRegister(IndividualRegisterRequest individualRegisterRequest) {
+		Result result=BusinnessRules.run(checkEmailIfExists(individualRegisterRequest.getEmail()));
+
+		if (result != null) {
+			return result;
+		}
 
 		CreateIndividualCustomerRequest crateCreateIndividualCustomerRequest = modelMapperService.forRequest()
 				.map(individualRegisterRequest, CreateIndividualCustomerRequest.class);
@@ -58,7 +63,11 @@ public class AuthManager implements AuthService {
 
 	@Override
 	public Result corparateRegister(CorparateRegisterRequest corparateRegisterRequest) {
+		Result result=BusinnessRules.run(checkEmailIfExists(corparateRegisterRequest.getEmail()));
 
+		if (result != null) {
+			return result;
+		}
 		CreateCorparateRequest createCorparateRequest = modelMapperService.forRequest().map(corparateRegisterRequest,
 				CreateCorparateRequest.class);
 		createCorparateRequest.setFindexScore(findexScoreService.getCorparateFindexScore(corparateRegisterRequest.getTaxNumber()));
@@ -93,6 +102,13 @@ public class AuthManager implements AuthService {
 					.equals(loginRequest.getPassword())) {
 				return new ErrorResult("Hatalı Şifre Girdiniz!");
 			}
+		}
+		return new SuccesResult();
+	}
+
+	private Result checkEmailIfExists(String email){
+		if (!this.userService.existByEmail(email).isSuccess()){
+			return new ErrorResult("Mail Adresi Zaten bulunmaktadır.");
 		}
 		return new SuccesResult();
 	}
