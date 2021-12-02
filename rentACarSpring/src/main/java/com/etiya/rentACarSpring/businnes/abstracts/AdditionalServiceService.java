@@ -9,9 +9,11 @@ import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 import com.etiya.rentACarSpring.entities.City;
 
-public interface AdditionalService {
+import java.util.List;
+
+public interface AdditionalServiceService {
     Result save(CreateAdditionalServiceRequest createAdditionalServiceRequest);
     Result update(UpdateAdditionalServiceRequest updateAdditionalServiceRequest);
     Result delete(DeleteAdditionalServiceRequest deleteAdditionalServiceRequest);
-    DataResult<AdditionalServiceSearchListDto> getAll();
+    DataResult<List<AdditionalServiceSearchListDto>> getAll();
 }

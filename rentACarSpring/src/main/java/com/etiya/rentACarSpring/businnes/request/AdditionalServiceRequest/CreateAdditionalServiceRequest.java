@@ -22,5 +22,5 @@ public class CreateAdditionalServiceRequest {
 
     private int additionalServicePrice;
 
-    private int rentalId;
+   // private int rentalId;
 }

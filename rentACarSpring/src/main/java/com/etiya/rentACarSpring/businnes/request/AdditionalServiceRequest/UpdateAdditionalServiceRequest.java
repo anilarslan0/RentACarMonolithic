@@ -17,5 +17,5 @@ public class UpdateAdditionalServiceRequest {
 
     private int additionalServicePrice;
 
-    private int rentalId;
+    //private int rentalId;
 }
