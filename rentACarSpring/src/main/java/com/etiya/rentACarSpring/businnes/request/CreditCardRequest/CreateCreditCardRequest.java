@@ -30,5 +30,4 @@ public class CreateCreditCardRequest {
 	@NotNull
 	private int userId;
 
-
 }

@@ -27,8 +27,6 @@ public class UpdateRentalRequest {
 
     private int carId;
 
-    private int userId;
-
     private int takeCityId;
 
     private int returnCityId;

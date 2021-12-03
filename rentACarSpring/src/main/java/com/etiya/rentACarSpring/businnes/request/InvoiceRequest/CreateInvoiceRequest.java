@@ -28,8 +28,7 @@ public class CreateInvoiceRequest {
 	@NotNull
 	@Min(1)
 	private int totalRentDay;
-	@NotNull
-	private int userId;
+
 	@NotNull
 	private int rentalId;
 }

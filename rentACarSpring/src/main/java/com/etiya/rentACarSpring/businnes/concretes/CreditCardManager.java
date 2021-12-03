@@ -47,7 +47,8 @@ public class CreditCardManager implements CreditCardService {
 	@Override
 	public Result add(CreateCreditCardRequest createCreditCardRequest) {
 		Result result = BusinnessRules.run(checkIfCreditCardFormatIsTrue(createCreditCardRequest.getCardNumber()),
-				checkExistCardNumber(createCreditCardRequest.getCardNumber()));
+				checkExistCardNumber(createCreditCardRequest.getCardNumber()),
+				checkIfCreditCardCvvFormatIsTrue(createCreditCardRequest.getCvv()));
 		if (result != null) {
 			return result;
 		}
@@ -58,8 +59,15 @@ public class CreditCardManager implements CreditCardService {
 
 	@Override
 	public Result update(UpdateCreditCardRequest updateCreditCardRequest) {
-		CreditCard result = modelMapperService.forRequest().map(updateCreditCardRequest, CreditCard.class);
-		this.creditCardDao.save(result);
+		Result result = BusinnessRules.run(checkIfCreditCardFormatIsTrue(updateCreditCardRequest.getCardNumber()),
+				checkExistCardNumber(updateCreditCardRequest.getCardNumber()),
+				checkIfCreditCardCvvFormatIsTrue(updateCreditCardRequest.getCvv()));
+		if (result != null) {
+			return result;
+		}
+
+		CreditCard creditCard = modelMapperService.forRequest().map(updateCreditCardRequest, CreditCard.class);
+		this.creditCardDao.save(creditCard);
 		return new SuccesResult("Credit card is updated.");
 	}
 
@@ -93,10 +101,17 @@ public class CreditCardManager implements CreditCardService {
 		return new SuccesResult();
 	}
 
-	private Result ifUserWantSaveCreditCard(boolean isSaved) {
-		if (isSaved) {
-			return new SuccesResult();
-		}
-		return new ErrorResult("Kullanıcı Kartı Kaydetme İstemiyor");
+
+	private Result checkIfCreditCardCvvFormatIsTrue(String cvv) {
+
+		String regex = "^[0-9]{3,3}$";
+
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(cvv);
+
+		if (!matcher.matches())
+			return new ErrorResult("Credit card cvv format is not correct.");
+
+		return new SuccesResult();
 	}
 }

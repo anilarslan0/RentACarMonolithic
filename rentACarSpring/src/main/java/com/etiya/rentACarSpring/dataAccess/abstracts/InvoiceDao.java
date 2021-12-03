@@ -17,7 +17,7 @@ public interface InvoiceDao extends JpaRepository<Invoice, Integer> {
 	List<Invoice> getByCreationDateBetween(@Param("minDate")Date minDate,@Param("maxDate")Date maxDate);
 	
 
-	List<Invoice> getInvoiceByUser_UserId(int userId);
+
 
 
 }

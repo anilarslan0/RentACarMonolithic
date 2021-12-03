@@ -60,18 +60,9 @@ public class InvoiceManager implements InvoiceService {
 	public Result Add(DropOffCarUpdateRequest dropOffCarUpdateRequest) {
 
 		Invoice invoice=new Invoice();
-		//Random rand=new Random();
-
-
-
 		invoice.setCreateDate(new java.sql.Date(new java.util.Date().getTime()));
-		long unixTime = System.currentTimeMillis() / 1000L;
-		String unique_no=Long.toHexString(unixTime).toUpperCase();
 
-		long unixTime2 = System.currentTimeMillis() / 1000L;
-		String unique_no2=Long.toHexString(unixTime).toUpperCase();
-
-		invoice.setInvoiceNumber("REV"+unique_no+"%"+unique_no2+"#");
+		invoice.setInvoiceNumber(createInvoiceNumber(dropOffCarUpdateRequest.getRentalId()).getData());
 
 		Date rentDateForInvoice= (Date)(rentalService.getById(dropOffCarUpdateRequest.getRentalId()).getRentDate());
 		//int  userIdForInvoice=(int)(rentalService.getById(dropOffCarUpdateRequest.getRentalId()).getUser().getUserId());
@@ -84,7 +75,6 @@ public class InvoiceManager implements InvoiceService {
 				(ifCarReturnedToDifferentCity(dropOffCarUpdateRequest.getRentalId(), dropOffCarUpdateRequest.getReturnCityId()).getData()));
 
 
-		invoice.setUser(userService.getByUserId(dropOffCarUpdateRequest.getUserId()));
 		invoice.setRental(rentalService.getById(dropOffCarUpdateRequest.getRentalId()));
 
 
@@ -121,14 +111,6 @@ public class InvoiceManager implements InvoiceService {
 		return new SuccesDataResult<List<InvoiceSearchListDto>>(response);
 	}
 
-	@Override
-	public DataResult<List<InvoiceSearchListDto>> getInvoiceByUserId(int userId) {
-		List<InvoiceSearchListDto> response = this.invoiceDao.getInvoiceByUser_UserId(userId).stream()
-				.map(invoice -> modelMapperService.forDto().map(invoice, InvoiceSearchListDto.class))
-				.collect(Collectors.toList());
-
-		return new SuccesDataResult<List<InvoiceSearchListDto>>(response);
-	}
 
 		private int calculateDifferenceBetweenDays(Date maxDate, Date minDate) {
 		long difference = (maxDate.getTime() - minDate.getTime())/86400000;
@@ -141,6 +123,13 @@ public class InvoiceManager implements InvoiceService {
 		return new SuccesDataResult<>(0);
 	}
 
-	
+	private DataResult<String> createInvoiceNumber(int rentalId){
 
+		long unixTime = System.currentTimeMillis() / 1000L;
+		String unique_no1=Long.toHexString(unixTime).toUpperCase();
+		String unique_no2=Long.toHexString(unixTime).toUpperCase();
+		String invoiceNumber= "REV"+ unique_no1 + "%" + unique_no2+"#";
+
+		return new SuccesDataResult<>(invoiceNumber);
+	}
 }

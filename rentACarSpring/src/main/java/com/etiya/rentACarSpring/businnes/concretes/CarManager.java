@@ -3,6 +3,7 @@ package com.etiya.rentACarSpring.businnes.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACarSpring.core.utilities.results.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,6 @@ import com.etiya.rentACarSpring.businnes.request.CarRequest.DeleteCarRequest;
 import com.etiya.rentACarSpring.businnes.request.CarRequest.UpdateCarRequest;
 import com.etiya.rentACarSpring.core.utilities.adapter.findexScoreServiceAdapter.findexScoreService;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
-import com.etiya.rentACarSpring.core.utilities.results.DataResult;
-import com.etiya.rentACarSpring.core.utilities.results.Result;
-import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
-import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.CarDao;
 import com.etiya.rentACarSpring.entities.Car;
 import com.etiya.rentACarSpring.entities.complexTypes.CarDetail;
@@ -133,6 +130,14 @@ public class CarManager implements CarService {
 				.map(car -> modelMapperService.forDto().map(car, CarSearchListDto.class)).collect(Collectors.toList());
 
 		return new SuccesDataResult<List<CarSearchListDto>>(response);
+	}
+
+	@Override
+	public Result checkCarExistsInGallery(int id) {
+		if (this.carDao.existsById(id)) {
+			return new SuccesResult();
+		}
+		return new ErrorResult("Galeride böyle bir araba yok.");
 	}
 
 }

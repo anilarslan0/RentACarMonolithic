@@ -1,4 +1,4 @@
-package com.etiya.rentACarSpring.businnes.request.CityRequest.ImageRequest;
+package com.etiya.rentACarSpring.businnes.request.ImageRequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

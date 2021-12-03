@@ -48,15 +48,12 @@ public class Rental {
 	@JoinColumn(name = "return_city_id")
 	private City returnCity;
 
-
 	
-	
-	
-//	@ManyToOne(cascade = CascadeType.DETACH)
+//	@ManyToOne
 //	@JoinColumn(name = "individualCustomers_id")
 //	private IndividualCustomer individualCustomer;
 //	
-//	@ManyToOne(cascade = CascadeType.DETACH)
+//	@ManyToOne
 //	@JoinColumn(name = "corparate_customer_id")
 //	private CorparateCustomer corparateCustomer;
 	

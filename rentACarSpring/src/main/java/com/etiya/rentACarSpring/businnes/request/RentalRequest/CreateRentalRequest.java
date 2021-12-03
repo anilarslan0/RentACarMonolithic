@@ -20,7 +20,7 @@ public class CreateRentalRequest {
 	
 	@JsonIgnore
 	private int rentalId;
-	@NotBlank
+
 	@NotNull
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date rentDate;
@@ -35,11 +35,9 @@ public class CreateRentalRequest {
 	@NotNull
 	private int carId;
 
-	private int returnKilometer;
-	@NotBlank
 	private int takeCityId;
 
-	private int returnCityId;
+
 
 	
 }

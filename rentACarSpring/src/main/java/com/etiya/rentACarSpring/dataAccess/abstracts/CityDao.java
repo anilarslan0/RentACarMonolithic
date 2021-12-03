@@ -1,5 +1,6 @@
 package com.etiya.rentACarSpring.dataAccess.abstracts;
 
+import com.etiya.rentACarSpring.entities.Brand;
 import com.etiya.rentACarSpring.entities.Invoice;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,8 +12,6 @@ import java.awt.*;
 import java.sql.Date;
 import java.util.List;
 
-
 public interface CityDao extends JpaRepository<City, Integer>{
-
-
+    City getByCityName(String cityName);
 }

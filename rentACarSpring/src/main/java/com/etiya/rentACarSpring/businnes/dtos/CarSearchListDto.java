@@ -20,6 +20,6 @@ public class CarSearchListDto {
 	 @JsonProperty(value = "description")
 	private String description;
 
-	//private int findexScore;
+
 
 }

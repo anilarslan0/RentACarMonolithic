@@ -22,12 +22,4 @@ public interface RentalDao extends JpaRepository<Rental, Integer> {
 	Rental getByRentalId(int rentalId);
 	
 
-//	@Query("Select new com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto" 
-//			+ "(c.carId,c.dailyPrice,c.description) "
-//			+ "From Car c Inner Join  c.carMaintenances cm where m.return_date ")
-//	List<CarSearchListDto> getAllWithoutMaintenanceOfCar();
-
-//	@Query(value = "select c.id from cars c inner join car_maintenances m on "
-//			+ "c.id=m.id where m.return_date is null and c.id=:carId ", nativeQuery = true)
-//	CarMaintenanceSearchListDto getByCarIdIfMaintenanceReturnDateIsNull(int carId);
 }

@@ -19,16 +19,6 @@ public class PosServiceRequest {
 
     @NotBlank
     @NotNull
-    @Size(max = 25)
-    private String cardHolderName;
-
-    @NotBlank
-    @NotNull
-    @Size(min = 5, max = 5)
-    private String expirationDate;
-
-    @NotBlank
-    @NotNull
     @Size(min = 3, max = 3)
     private String cvv;
 

@@ -23,7 +23,5 @@ public class UpdateInvoiceRequest {
 
 	private int totalRentDay;
 	
-	private int userId;
-	
 	private int rentalId;
 }

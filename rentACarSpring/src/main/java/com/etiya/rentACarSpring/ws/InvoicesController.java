@@ -68,9 +68,5 @@ public class InvoicesController {
 		return invoiceService.getInvoiceByDate(createInvoiceDateRequest);
 	}
 
-	@GetMapping("getInvoiceByUserId")
-	public DataResult<List<InvoiceSearchListDto>> getInvoiceByUserId(@RequestParam("userId") Integer userId) {
 
-		return invoiceService.getInvoiceByUserId(userId);
-	}
 }

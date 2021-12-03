@@ -33,7 +33,7 @@ public class CreateCarRequest {
 	@NotNull
 	@Min(100)	
 	private int dailyPrice;
-	@NotBlank
+
 	@NotNull
 	private int kilometer;
 	

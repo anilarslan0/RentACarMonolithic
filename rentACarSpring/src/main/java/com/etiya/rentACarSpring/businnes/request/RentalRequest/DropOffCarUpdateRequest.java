@@ -25,7 +25,6 @@ public class DropOffCarUpdateRequest {
 
 	private int carId;
 
-	private  int userId;
 
 
 

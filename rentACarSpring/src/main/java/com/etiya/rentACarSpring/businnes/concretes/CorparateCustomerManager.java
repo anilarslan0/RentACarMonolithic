@@ -1,5 +1,6 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
+import com.etiya.rentACarSpring.core.utilities.results.ErrorResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,14 @@ public class CorparateCustomerManager implements CorparateCustomerService {
 	public Result delete(DeleteCorparateRequest deleteCorparateRequest) {
 		this.corparateCustomerDao.deleteById(deleteCorparateRequest.getCorparateCustomerId());
 		return new SuccesResult("Silme İşlemi Başarılı");
+	}
+
+	private Result checkIfTaxNumberExists(String taxNumber) {
+
+		if(this.corparateCustomerDao.existsByTaxNumber(taxNumber))
+			return new ErrorResult("Vergi numarası sistemde kayıtlıdır.");
+
+		return new SuccesResult();
 	}
 
 }

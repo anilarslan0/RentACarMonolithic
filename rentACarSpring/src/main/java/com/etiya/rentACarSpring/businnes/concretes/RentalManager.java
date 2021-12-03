@@ -76,13 +76,14 @@ public class RentalManager implements RentalService {
 	public Result Add(CreateRentalRequest createRentalRequest) {
 		Result result = BusinnessRules.run(checkCarRentalStatus(createRentalRequest.getCarId()),
 				checkUserAndCarFindexScore(createRentalRequest.getUserId(), createRentalRequest.getCarId()),
-				carMaintenanceService.CheckIfCarIsAtMaintenance(createRentalRequest.getCarId())
-				);
+				carMaintenanceService.CheckIfCarIsAtMaintenance(createRentalRequest.getCarId()),
+				checkIfUserRegisteredSystem(createRentalRequest.getUserId()),
+				checkIfCarIsNotExistsInGallery(createRentalRequest.getCarId()));
 
 		if (result != null) {
 			return result;
 		}
-
+		this.posSystemService.withdraw();
 		Rental rental = modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 
 		this.rentalDao.save(rental);
@@ -146,7 +147,6 @@ public class RentalManager implements RentalService {
 				.getFindexScore()) {
 			return new ErrorResult("Findex Puanı yeterli değildir.");
 		}
-
 		return new SuccesResult();
 	}
 
@@ -156,12 +156,24 @@ public class RentalManager implements RentalService {
 		PosServiceRequest fakePosServiceRequest = new PosServiceRequest();
 		fakePosServiceRequest.setCardNumber(creditCardSearchListDto.getCardNumber());
 		fakePosServiceRequest.setPrice(price);
-		if (this.posSystemService.withdraw(fakePosServiceRequest)){
+		if (this.posSystemService.withdraw()){
 			return  new ErrorResult("Limit Yeterli Değil");
 		}
 		return new SuccesResult();
 	}
 
+	private Result checkIfCarIsNotExistsInGallery(int carId) {
+		if (!this.carService.checkCarExistsInGallery(carId).isSuccess()) {
+			return new ErrorResult("Böyle bir araba galeride bulunmamaktadır.");
+		}
+		return new SuccesResult();
+	}
 
+	private Result checkIfUserRegisteredSystem(int userId) {
+		if (!this.userService.getById(userId).isSuccess()) {
+			return new ErrorResult("Böyle bir kullanıcı sisteme kayıtlı değil, öncelikle kayıt olunuz.");
+		}
+		return new SuccesResult();
+	}
 
 }

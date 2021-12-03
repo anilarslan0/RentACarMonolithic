@@ -1,7 +1,7 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
-import com.etiya.rentACarSpring.core.utilities.results.DataResult;
-import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
+import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
+import com.etiya.rentACarSpring.core.utilities.results.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -12,8 +12,6 @@ import com.etiya.rentACarSpring.businnes.request.CityRequest.CreateCityRequest;
 import com.etiya.rentACarSpring.businnes.request.CityRequest.DeleteCityRequest;
 import com.etiya.rentACarSpring.businnes.request.CityRequest.UpdateCityRequest;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
-import com.etiya.rentACarSpring.core.utilities.results.Result;
-import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.CityDao;
 import com.etiya.rentACarSpring.entities.City;
 
@@ -31,6 +29,11 @@ public class CityManager implements CityService {
 
 	@Override
 	public Result save(CreateCityRequest createCityRequest) {
+		Result result = BusinnessRules.run(checkCityNameDublicated(createCityRequest.getCityName()));
+		if (result != null) {
+			return result;
+		}
+
 		City city = modelMapperService.forRequest().map(createCityRequest, City.class);
 		this.cityDao.save(city);
 		return new SuccesResult(Messages.addedCity);
@@ -54,4 +57,11 @@ public class CityManager implements CityService {
 		return new SuccesDataResult<City>(this.cityDao.getById(cityId));
 	}
 
+	private Result checkCityNameDublicated(String cityName) {
+		City city=this.cityDao.getByCityName(cityName);
+		if (city!=null) {
+			return new ErrorResult("Şehir kayıtlı.");
+		}
+		return new SuccesResult();
+	}
 }

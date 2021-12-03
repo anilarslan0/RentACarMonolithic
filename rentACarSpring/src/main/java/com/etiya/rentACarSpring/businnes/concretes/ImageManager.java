@@ -7,15 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACarSpring.businnes.abstracts.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.ImageService;
 import com.etiya.rentACarSpring.businnes.constants.FilePath;
 import com.etiya.rentACarSpring.businnes.dtos.ImageSearchListDto;
-import com.etiya.rentACarSpring.businnes.request.CityRequest.ImageRequest.CreateImageRequest;
-import com.etiya.rentACarSpring.businnes.request.CityRequest.ImageRequest.DeleteImageRequest;
-import com.etiya.rentACarSpring.businnes.request.CityRequest.ImageRequest.UpdateImageRequest;
+import com.etiya.rentACarSpring.businnes.request.ImageRequest.CreateImageRequest;
+import com.etiya.rentACarSpring.businnes.request.ImageRequest.DeleteImageRequest;
+import com.etiya.rentACarSpring.businnes.request.ImageRequest.UpdateImageRequest;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.helpers.FileHelper;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
@@ -35,20 +36,23 @@ public class ImageManager implements ImageService {
 	private ImageDao imageDao;
 	private FileHelper fileHelper;
 	private ModelMapperService modelMapperService;
+	private CarService carService;
 
 	@Autowired
-	public ImageManager(ImageDao imageDao, FileHelper fileHelper, ModelMapperService modelMapperService) {
+	public ImageManager(ImageDao imageDao, FileHelper fileHelper, ModelMapperService modelMapperService,CarService carService) {
 		super();
 		this.imageDao = imageDao;
 		this.fileHelper = fileHelper;
 		this.modelMapperService = modelMapperService;
+		this.carService=carService;
 	}
 
 	@Override
 	public Result Add(CreateImageRequest createImageRequest) throws IOException {
 
 		var result = BusinnessRules.run(checkCarImagesCount(createImageRequest.getCarId(), 5),
-				this.fileHelper.checkImageType(createImageRequest.getFile()));
+				this.fileHelper.checkImageType(createImageRequest.getFile()),
+				checkIfCarIsNotExistsInGallery(createImageRequest.getCarId()));
 
 		if (result != null) {
 			return result;
@@ -76,7 +80,8 @@ public class ImageManager implements ImageService {
 		Image image = this.imageDao.getById(updateImageRequest.getImageId());
 
 		var result = BusinnessRules.run(checkCarImagesCount(image.getCar().getCarId(), 5),
-				this.fileHelper.checkImageType(updateImageRequest.getFile()));
+				this.fileHelper.checkImageType(updateImageRequest.getFile()),
+				checkIfImageExists(updateImageRequest.getImageId()));
 
 		if (result != null) {
 			return result;
@@ -147,6 +152,20 @@ public class ImageManager implements ImageService {
 
 		return new SuccesDataResult<List<ImageSearchListDto>>(response);
 
+	}
+
+	private Result checkIfImageExists(int imageId) {
+		if (!this.imageDao.existsById(imageId)) {
+			return new ErrorResult("Böyle bir resim veritabanında bulunmamaktadır.");
+		}
+		return new SuccesResult();
+
+	}
+	private Result checkIfCarIsNotExistsInGallery(int carId) {
+		if (!this.carService.checkCarExistsInGallery(carId).isSuccess()) {
+			return new ErrorResult("Böyle bir araba galeride bulunmamaktadır.");
+		}
+		return new SuccesResult();
 	}
 
 }
