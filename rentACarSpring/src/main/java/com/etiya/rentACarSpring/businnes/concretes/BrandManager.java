@@ -63,7 +63,7 @@ public class BrandManager implements BrandService {
 	private Result checkBrandNameDublicated(String brandName) {
 		Brand brand=this.brandDao.getByBrandName(brandName);
 		if (brand!=null) {
-			return new ErrorResult("Marka Adı tekrar edemez");
+			return new ErrorResult("Markaa Adı tekrar edemez");
 		}
 		
 		return new SuccesResult();

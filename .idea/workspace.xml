@@ -5,20 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="639878a2-ff84-47e6-8a59-fb3db46e61aa" name="Changes" comment="step 20-21 and some code review completed">
-      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/CreditCardRentalRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/InvoiceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/InvoiceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarDamageManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarDamageManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CorparateCustomerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CorparateCustomerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/InvoiceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/InvoiceManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/dtos/CarSearchListDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/dtos/CarSearchListDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/PosServiceRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/PosServiceRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/RentalRequest/DropOffCarUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/RentalRequest/DropOffCarUpdateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/RentalRequest/UpdateRentalRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/RentalRequest/UpdateRentalRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/core/utilities/adapter/posServiceAdapter/posSystemAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/core/utilities/adapter/posServiceAdapter/posSystemAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/core/utilities/adapter/posServiceAdapter/posSystemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/core/utilities/adapter/posServiceAdapter/posSystemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/fakeServices/PosService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/fakeServices/PosService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/BrandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/BrandManager.java" afterDir="false" />
     </list>
     <list id="e2f67a6e-4c16-43a9-8ba2-eadfa36b2808" name="Changes by burak.kaya" comment="Changes by burak.kaya" />
     <option name="SHOW_DIALOG" value="false" />
@@ -128,7 +115,7 @@
       <workItem from="1638348138297" duration="24098000" />
       <workItem from="1638388643183" duration="16358000" />
       <workItem from="1638454381995" duration="17342000" />
-      <workItem from="1638512841508" duration="27548000" />
+      <workItem from="1638512841508" duration="27681000" />
     </task>
     <task id="LOCAL-00001" summary="new update">
       <created>1638388948248</created>
@@ -193,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638552906036</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="step 20-21 and some code review completed">
+      <created>1638561643253</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1638561643253</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
