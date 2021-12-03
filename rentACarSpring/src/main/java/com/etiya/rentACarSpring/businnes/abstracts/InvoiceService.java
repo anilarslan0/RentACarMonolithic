@@ -16,5 +16,5 @@ public interface InvoiceService {
 	Result Update(UpdateInvoiceRequest updateInvoiceRequest);
 	Result Delete(DeleteInvoiceRequest deleteInvoiceRequest);
 	DataResult<List<InvoiceSearchListDto>> getInvoiceByDate(CreateInvoiceDateRequest createInvoiceDateRequest);
-
+	Integer rentOfTotalPrice(DropOffCarUpdateRequest dropOffCarUpdateRequest);
 }

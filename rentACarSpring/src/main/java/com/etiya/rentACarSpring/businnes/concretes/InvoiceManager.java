@@ -118,7 +118,7 @@ public class InvoiceManager implements InvoiceService {
         return new SuccesDataResult<>(invoiceNumber);
     }
 
-    private Integer rentOfTotalPrice(DropOffCarUpdateRequest dropOffCarUpdateRequest) {
+    public Integer rentOfTotalPrice(DropOffCarUpdateRequest dropOffCarUpdateRequest) {
 
         int dailyPriceOfCar = (int) (carService.getbyId(dropOffCarUpdateRequest.getCarId()).getData().getDailyPrice());
         int priceOfDiffrentCity = ifCarReturnedToDifferentCity(dropOffCarUpdateRequest.getRentalId(), dropOffCarUpdateRequest.getReturnCityId()).getData();

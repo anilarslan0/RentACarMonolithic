@@ -1,5 +1,6 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
+import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.ErrorResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,11 @@ public class CorparateCustomerManager implements CorparateCustomerService {
 
 	@Override
 	public Result Add(CreateCorparateRequest createCorparateRequest) {
+		Result result = BusinnessRules.run(checkIfTaxNumberExists(createCorparateRequest.getTaxNumber()));
+		if (result != null) {
+			return result;
+		}
+
 		CorparateCustomer corparateCustomer = modelMapperService.forRequest().map(createCorparateRequest, CorparateCustomer.class);
 		this.corparateCustomerDao.save(corparateCustomer);
 		return new SuccesResult("Ekleme İslemi Basarili");
@@ -35,6 +41,11 @@ public class CorparateCustomerManager implements CorparateCustomerService {
 
 	@Override
 	public Result update(UpdateCorparateRequest updateCorparateRequest) {
+		Result result = BusinnessRules.run(checkIfTaxNumberExists(updateCorparateRequest.getTaxNumber()));
+		if (result != null) {
+			return result;
+		}
+
 		CorparateCustomer corparateCustomer = modelMapperService.forRequest().map(updateCorparateRequest, CorparateCustomer.class);
 		this.corparateCustomerDao.save(corparateCustomer);
 		return new SuccesResult("Güncelleme İşlemi Başarılı");

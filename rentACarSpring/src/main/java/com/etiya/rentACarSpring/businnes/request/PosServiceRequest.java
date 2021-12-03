@@ -24,5 +24,5 @@ public class PosServiceRequest {
 
     @NotBlank
     @NotNull
-    private double price;
+    private int price;
 }

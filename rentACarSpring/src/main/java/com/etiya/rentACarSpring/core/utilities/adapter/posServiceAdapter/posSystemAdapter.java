@@ -6,12 +6,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class posSystemAdapter implements posSystemService {
+
     PosService fakePosService = new PosService();
 
     @Override
-    public boolean withdraw() {
-
-        return this.fakePosService.checkPos();
+    public boolean checkPayment(PosServiceRequest posServiceRequest) {
+        return fakePosService.checkCreditCardBalance(posServiceRequest.getCardNumber(),
+                posServiceRequest.getCvv(),posServiceRequest.getPrice());
     }
 }
 
