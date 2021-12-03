@@ -19,17 +19,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @PrimaryKeyJoinColumn(name = "user_id")
 @Table(name = "corparateCustomers")
-public class CorparateCustomer extends User{
-	
-	@Column(name = "corparate_customer_Id")
-	private int corparateCustomerId;
-	
-	@Column(name = "company_name")
-	private String companyName;
-	
-	@Column(name = "tax_number")
-	private String taxNumber;
+public class CorparateCustomer extends User {
 
-	//@OneToMany(mappedBy = "corparateCustomer")
-	//private List<Rental> rentals;
+
+
+    @Column(name = "company_name")
+    private String companyName;
+
+    @Column(name = "tax_number")
+    private String taxNumber;
+
+
 }

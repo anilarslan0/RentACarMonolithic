@@ -48,13 +48,7 @@ public class Rental {
 	@JoinColumn(name = "return_city_id")
 	private City returnCity;
 
-	
-//	@ManyToOne
-//	@JoinColumn(name = "individualCustomers_id")
-//	private IndividualCustomer individualCustomer;
-//	
-//	@ManyToOne
-//	@JoinColumn(name = "corparate_customer_id")
-//	private CorparateCustomer corparateCustomer;
+	@OneToMany(mappedBy = "rental")
+	private List<RentalAdditionalService> rentalAdditionalServices;
 	
 }

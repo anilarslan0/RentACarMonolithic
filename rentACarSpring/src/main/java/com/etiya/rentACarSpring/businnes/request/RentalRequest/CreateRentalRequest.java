@@ -25,10 +25,6 @@ public class CreateRentalRequest {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date rentDate;
 
-	
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date returnDate;
-
 	@NotNull
 	private int userId;
 

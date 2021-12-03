@@ -95,14 +95,14 @@ public class RentalManager implements RentalService {
 	public Result dropOffCarUpdate(DropOffCarUpdateRequest dropOffCarUpdateRequest) {
 		Rental rental = modelMapperService.forRequest().map(dropOffCarUpdateRequest, Rental.class);
 
-		Car car = this.carService.getbyId(dropOffCarUpdateRequest.getCarId()).getData();
+		 Car car = rental.getCar();
 
 
 		Rental result = this.rentalDao.getByRentalId(dropOffCarUpdateRequest.getRentalId());
 		rental.setRentDate(result.getRentDate());
 		rental.setTakeCity(result.getTakeCity());
 		rental.setUser(result.getUser());
-		rental.setCar(result.getCar());
+		rental.setCar(car);
 		car.setKilometer(rental.getReturnKilometer());
 		car.setCity(rental.getReturnCity());
 
@@ -175,5 +175,23 @@ public class RentalManager implements RentalService {
 		}
 		return new SuccesResult();
 	}
+
+	public Integer sumAdditionalServicePriceByRentalId(int rentalId){
+		List<Integer> prices=this.rentalDao.getAdditionalRentalPrice(rentalId);
+		int additionalTotalPrice=0;
+
+		for (int price:prices){
+			additionalTotalPrice+=price;
+		}
+		return additionalTotalPrice;
+	}
+
+	@Override
+	public Integer getDailyPriceOfRental(int rentalId) {
+		return this.rentalDao.getDailyPriceOfCar(rentalId);
+	}
+
+
+
 
 }

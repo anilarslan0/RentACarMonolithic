@@ -20,4 +20,7 @@ public interface RentalService {
 	DataResult<List<Rental>> getByCar(int carId);
 	Result checkCarRentalStatus(int carId);
 	Rental getById(int rentalId);
+	Integer sumAdditionalServicePriceByRentalId(int rentalId);
+	Integer getDailyPriceOfRental(int rentalId);
+
 }

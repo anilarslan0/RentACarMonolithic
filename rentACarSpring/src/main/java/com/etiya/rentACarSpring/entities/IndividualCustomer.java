@@ -22,13 +22,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@PrimaryKeyJoinColumn(name = "user_id")
 @Table(name = "individualCustomers")
 public class IndividualCustomer extends User {
-	
-	
-	@Column(name = "individualCustomers_id")
-	private int individualCustomersId;
 	
 	@Column (name="first_name")
 	private String firstName;
@@ -46,8 +41,7 @@ public class IndividualCustomer extends User {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	//@OneToMany(mappedBy="individualCustomer")
-	//private List<Rental> rentals;
+
 }
 
 
