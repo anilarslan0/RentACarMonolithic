@@ -18,50 +18,51 @@ import com.etiya.rentACarSpring.entities.City;
 @Service
 public class CityManager implements CityService {
 
-	private CityDao cityDao;
-	private ModelMapperService modelMapperService;
-	@Autowired
-	public CityManager(CityDao cityDao,ModelMapperService modelMapperService) {
-		super();
-		this.cityDao = cityDao;
-		this.modelMapperService=modelMapperService;
-	}
+    private CityDao cityDao;
+    private ModelMapperService modelMapperService;
 
-	@Override
-	public Result save(CreateCityRequest createCityRequest) {
-		Result result = BusinnessRules.run(checkCityNameDublicated(createCityRequest.getCityName()));
-		if (result != null) {
-			return result;
-		}
+    @Autowired
+    public CityManager(CityDao cityDao, ModelMapperService modelMapperService) {
+        super();
+        this.cityDao = cityDao;
+        this.modelMapperService = modelMapperService;
+    }
 
-		City city = modelMapperService.forRequest().map(createCityRequest, City.class);
-		this.cityDao.save(city);
-		return new SuccesResult(Messages.addedCity);
-	}
+    @Override
+    public Result save(CreateCityRequest createCityRequest) {
+        Result result = BusinnessRules.run(checkCityNameDublicated(createCityRequest.getCityName()));
+        if (result != null) {
+            return result;
+        }
 
-	@Override
-	public Result update(UpdateCityRequest updateCityRequest) {
-		City city  = modelMapperService.forRequest().map(updateCityRequest, City.class);
-		this.cityDao.save(city);
-		return new SuccesResult(Messages.updatedCity);
-	}
+        City city = modelMapperService.forRequest().map(createCityRequest, City.class);
+        this.cityDao.save(city);
+        return new SuccesResult(Messages.addedCity);
+    }
 
-	@Override
-	public Result delete(DeleteCityRequest deleteCityRequest) {
-		this.cityDao.deleteById(deleteCityRequest.getCityId());
-		return new SuccesResult(Messages.deletedCity);
-	}
+    @Override
+    public Result update(UpdateCityRequest updateCityRequest) {
+        City city = modelMapperService.forRequest().map(updateCityRequest, City.class);
+        this.cityDao.save(city);
+        return new SuccesResult(Messages.updatedCity);
+    }
 
-	@Override
-	public DataResult<City> getbyId(int cityId) {
-		return new SuccesDataResult<City>(this.cityDao.getById(cityId));
-	}
+    @Override
+    public Result delete(DeleteCityRequest deleteCityRequest) {
+        this.cityDao.deleteById(deleteCityRequest.getCityId());
+        return new SuccesResult(Messages.deletedCity);
+    }
 
-	private Result checkCityNameDublicated(String cityName) {
-		City city=this.cityDao.getByCityName(cityName);
-		if (city!=null) {
-			return new ErrorResult("Şehir kayıtlı.");
-		}
-		return new SuccesResult();
-	}
+    @Override
+    public DataResult<City> getbyId(int cityId) {
+        return new SuccesDataResult<City>(this.cityDao.getById(cityId));
+    }
+
+    private Result checkCityNameDublicated(String cityName) {
+        City city = this.cityDao.getByCityName(cityName);
+        if (city != null) {
+            return new ErrorResult("Şehir kayıtlı.");
+        }
+        return new SuccesResult();
+    }
 }

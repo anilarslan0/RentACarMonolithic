@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.springframework.lang.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -50,5 +50,7 @@ public class Rental {
 
 	@OneToMany(mappedBy = "rental")
 	private List<RentalAdditionalService> rentalAdditionalServices;
-	
+
+	@OneToOne(mappedBy = "rental")
+	private Invoice invoice;
 }

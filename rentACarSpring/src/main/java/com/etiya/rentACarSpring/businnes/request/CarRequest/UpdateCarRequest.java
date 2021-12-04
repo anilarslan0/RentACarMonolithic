@@ -27,6 +27,5 @@ public class UpdateCarRequest {
 	@NotNull
 	private String description;
 	@NotNull
-	@NotBlank
 	private int kilometer;
 }

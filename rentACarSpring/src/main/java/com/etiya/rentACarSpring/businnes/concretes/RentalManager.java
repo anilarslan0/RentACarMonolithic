@@ -91,7 +91,9 @@ public class RentalManager implements RentalService {
 
     @Override
     public Result dropOffCarUpdate(DropOffCarUpdateRequest dropOffCarUpdateRequest) {
-        Result rules = BusinnessRules.run(checkCreditCardBalance(dropOffCarUpdateRequest, dropOffCarUpdateRequest.getCreditCardRentalRequest()));
+        Result rules = BusinnessRules.run(checkCreditCardBalance(dropOffCarUpdateRequest, dropOffCarUpdateRequest.getCreditCardRentalRequest()),
+                checkReturnDate(dropOffCarUpdateRequest.getRentalId())
+                );
 
         if (rules != null) {
             return rules;
@@ -196,5 +198,12 @@ public class RentalManager implements RentalService {
         return this.rentalDao.getDailyPriceOfCar(rentalId);
     }
 
+    private Result checkReturnDate(int rentalId){
+        var result = this.rentalDao.getByRentalId(rentalId);
+        if ((result.getReturnDate()!=null)){
+            return new ErrorResult("Araba zaten geri dönmüş durumda.");
+        }
+        return new SuccesResult();
+    }
 
 }

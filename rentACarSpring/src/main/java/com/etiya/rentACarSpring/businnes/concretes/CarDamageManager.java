@@ -27,10 +27,10 @@ public class CarDamageManager implements CarDamageService {
     private CarService carService;
 
     @Autowired
-    public CarDamageManager(CarDamageDao carDamageDao, ModelMapperService modelMapperService,CarService carService) {
+    public CarDamageManager(CarDamageDao carDamageDao, ModelMapperService modelMapperService, CarService carService) {
         this.carDamageDao = carDamageDao;
         this.modelMapperService = modelMapperService;
-        this.carService=carService;
+        this.carService = carService;
 
     }
 
@@ -75,7 +75,7 @@ public class CarDamageManager implements CarDamageService {
 
     private Result checkCarExistsInGallery(int id) {
         boolean isExisting = carService.checkCarExistsInGallery(id).isSuccess();
-        if(!isExisting){
+        if (!isExisting) {
             return new SuccesResult();
         }
         return new ErrorResult("Galeride böyle bir araba yok.");
