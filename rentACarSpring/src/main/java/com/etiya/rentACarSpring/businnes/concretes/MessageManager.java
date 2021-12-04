@@ -27,7 +27,12 @@ public class MessageManager implements MessageService {
     }
 
     @Override
-    public Message getByMessageByMessageId(int messageId) {
-        return this.messageDao.getMessageByMessageId(messageId);
+    public String getByEnglishMessageByMessageId(int messageId) {
+        return this.messageDao.getEnglishMessageByMessageId(messageId);
+    }
+
+    @Override
+    public String getByTurkishMessageByMessageId(int messageId) {
+        return this.messageDao.getTurkishMessageByMessageId(messageId);
     }
 }

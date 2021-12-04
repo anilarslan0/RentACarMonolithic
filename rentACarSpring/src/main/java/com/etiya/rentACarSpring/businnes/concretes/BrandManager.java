@@ -42,7 +42,7 @@ public class BrandManager implements BrandService {
         Brand brand = modelMapperService.forRequest().map(createBrandRequest, Brand.class);
         this.brandDao.save(brand);
 
-        return new SuccesResult(messageService.getByMessageByMessageId(1).toString());
+        return new SuccesResult(messageService.getByEnglishMessageByMessageId(1));
     }
 
     @Override
@@ -54,20 +54,20 @@ public class BrandManager implements BrandService {
 
         Brand brand = modelMapperService.forRequest().map(updateBrandRequest, Brand.class);
         this.brandDao.save(brand);
-        return new SuccesResult(Messages.updatedBrand);
+        return new SuccesResult(messageService.getByEnglishMessageByMessageId(2));
     }
 
     @Override
     public Result delete(DeleteBrandRequest deleteBrandRequest) {
 
         this.brandDao.deleteById(deleteBrandRequest.getBrandId());
-        return new SuccesResult(Messages.deletedBrand);
+        return new SuccesResult(messageService.getByEnglishMessageByMessageId(3));
     }
 
     private Result checkBrandNameDublicated(String brandName) {
         Brand brand = this.brandDao.getByBrandName(brandName);
         if (brand != null) {
-            return new ErrorResult("Marka Adı tekrar edemez");
+            return new ErrorResult(messageService.getByEnglishMessageByMessageId(4));
         }
 
         return new SuccesResult();

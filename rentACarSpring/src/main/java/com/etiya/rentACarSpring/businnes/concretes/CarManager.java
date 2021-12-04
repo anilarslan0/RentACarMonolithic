@@ -3,6 +3,7 @@ package com.etiya.rentACarSpring.businnes.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACarSpring.businnes.abstracts.MessageService;
 import com.etiya.rentACarSpring.core.utilities.results.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,13 +27,16 @@ public class CarManager implements CarService {
     private CarDao carDao;
     private ModelMapperService modelMapperService;
     private findexScoreService findexScoreService;
+    private MessageService messageService;
 
     @Autowired
-    public CarManager(CarDao carDao, ModelMapperService modelMapperService, findexScoreService findexScoreService) {
+    public CarManager(CarDao carDao, ModelMapperService modelMapperService, findexScoreService findexScoreService,
+                      MessageService messageService) {
         super();
         this.carDao = carDao;
         this.modelMapperService = modelMapperService;
         this.findexScoreService = findexScoreService;
+        this.messageService=messageService;
     }
 
     @Override
@@ -49,21 +53,21 @@ public class CarManager implements CarService {
         Car car = modelMapperService.forRequest().map(createCarRequest, Car.class);
         car.setFindexScore(findexScoreService.sendCarFindexScore());
         this.carDao.save(car);
-        return new SuccesResult(Messages.addedCar);
+        return new SuccesResult(messageService.getByEnglishMessageByMessageId(4));
     }
 
     @Override
     public Result Update(UpdateCarRequest updateCarRequest) {
         Car car = modelMapperService.forRequest().map(updateCarRequest, Car.class);
         this.carDao.save(car);
-        return new SuccesResult(Messages.updatedCar);
+        return new SuccesResult(messageService.getByEnglishMessageByMessageId(7));
     }
 
     @Override
     public Result Delete(DeleteCarRequest deleteCarRequest) {
 
         this.carDao.deleteById(deleteCarRequest.getCarId());
-        return new SuccesResult(Messages.deletedCar);
+        return new SuccesResult(messageService.getByEnglishMessageByMessageId(6));
 
     }
 
@@ -137,7 +141,7 @@ public class CarManager implements CarService {
         if (this.carDao.existsById(id)) {
             return new SuccesResult();
         }
-        return new ErrorResult("Galeride böyle bir araba yok.");
+        return new ErrorResult(messageService.getByEnglishMessageByMessageId(8));
     }
 
 }

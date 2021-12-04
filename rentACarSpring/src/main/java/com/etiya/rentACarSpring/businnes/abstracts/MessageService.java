@@ -5,5 +5,6 @@ import com.etiya.rentACarSpring.entities.Message;
 
 public interface MessageService {
     DataResult<Message> getbyId(int messageId);
-    Message getByMessageByMessageId(int messageId);
+    String getByEnglishMessageByMessageId(int messageId);
+    String getByTurkishMessageByMessageId(int messageId);
 }

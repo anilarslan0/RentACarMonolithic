@@ -13,7 +13,10 @@ import java.util.List;
 
 public interface MessageDao extends JpaRepository<Message, Integer> {
     @Query(value = "select m.english from messages as m where m.message_id=:messageId", nativeQuery = true)
-    Message getMessageByMessageId(int messageId);
+    String  getEnglishMessageByMessageId(int messageId);
 
+
+    @Query(value = "select m.turkish from messages as m where m.message_id=:messageId", nativeQuery = true)
+    String  getTurkishMessageByMessageId(int messageId);
 
 }
