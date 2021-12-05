@@ -37,7 +37,7 @@ public class InvoicesController {
 		this.invoiceService = invoiceService;
 	}
 
-	@GetMapping("all")
+	@GetMapping("getAll")
 	public DataResult<List<InvoiceSearchListDto>> getAll() {
 		return invoiceService.getAll();
 	}

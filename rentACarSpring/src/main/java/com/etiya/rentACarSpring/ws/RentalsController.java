@@ -32,7 +32,7 @@ public class RentalsController {
 		this.rentalService = rentalService;
 	}
 
-	@GetMapping("all")
+	@GetMapping("getAll")
 	public DataResult<List<RentalSearchListDto>> getAll() {
 		return rentalService.getAll();
 	}

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import com.etiya.rentACarSpring.businnes.request.CreditCardRentalRequest;
 import com.etiya.rentACarSpring.businnes.request.PosServiceRequest;
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.UpdateRentalRequest;
 import com.etiya.rentACarSpring.core.utilities.adapter.posServiceAdapter.posSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -116,7 +117,6 @@ public class RentalManager implements RentalService {
         this.invoiceService.Add(dropOffCarUpdateRequest);
         return new SuccesResult("Araç kiradan döndü ve fatura oluşturuldu.");
     }
-
 
     @Override
     public Result Delete(DeleteRentaRequest deleteRentalRequest) {

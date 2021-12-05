@@ -22,7 +22,7 @@ public class RentalAdditionalServices {
         this.rentalAdditionalServiceService = rentalAdditionalServiceService;
     }
 
-    @GetMapping("all")
+    @GetMapping("getAll")
     public DataResult<List<RentalAdditionalServiceSearchListDto>> getAll() {
         return  this.rentalAdditionalServiceService.getAll();
     }

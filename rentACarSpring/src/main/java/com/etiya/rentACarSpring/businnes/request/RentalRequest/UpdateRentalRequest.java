@@ -16,16 +16,12 @@ public class UpdateRentalRequest {
     private int rentalId;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date rentDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date returnDate;
-
-    private  String returnKilometer;
 
     private int carId;
 
     private int takeCityId;
 
-    private int returnCityId;
+
 
 
 }
