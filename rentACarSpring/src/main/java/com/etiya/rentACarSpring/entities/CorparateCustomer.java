@@ -1,11 +1,7 @@
 package com.etiya.rentACarSpring.entities;
 
-import java.sql.Date;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -20,7 +16,6 @@ import lombok.NoArgsConstructor;
 @PrimaryKeyJoinColumn(name = "user_id")
 @Table(name = "corparateCustomers")
 public class CorparateCustomer extends User {
-
 
 
     @Column(name = "company_name")

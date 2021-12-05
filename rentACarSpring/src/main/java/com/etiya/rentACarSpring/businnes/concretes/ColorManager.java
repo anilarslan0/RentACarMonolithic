@@ -1,5 +1,10 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
+import com.etiya.rentACarSpring.businnes.dtos.BrandSearchListDto;
+import com.etiya.rentACarSpring.businnes.dtos.ColorSearchListDto;
+import com.etiya.rentACarSpring.core.utilities.results.DataResult;
+import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
+import com.etiya.rentACarSpring.entities.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -18,6 +23,9 @@ import com.etiya.rentACarSpring.dataAccess.abstracts.ColorDao;
 
 import com.etiya.rentACarSpring.entities.Color;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ColorManager implements ColorService {
 
@@ -29,6 +37,16 @@ public class ColorManager implements ColorService {
         super();
         this.colorDao = colorDao;
         this.modelMapperService = modelMapperService;
+    }
+
+    @Override
+    public DataResult<List<ColorSearchListDto>> getAll() {
+        List<Color> result = this.colorDao.findAll();
+        List<ColorSearchListDto> response = result.stream()
+                .map(color -> modelMapperService.forDto().map(color, ColorSearchListDto.class))
+                .collect(Collectors.toList());
+
+        return new SuccesDataResult<List<ColorSearchListDto>>(response);
     }
 
     @Override

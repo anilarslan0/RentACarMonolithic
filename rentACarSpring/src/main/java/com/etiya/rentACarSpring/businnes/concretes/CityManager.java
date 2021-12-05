@@ -1,7 +1,10 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
+import com.etiya.rentACarSpring.businnes.dtos.CitySearchListDto;
+import com.etiya.rentACarSpring.businnes.dtos.ColorSearchListDto;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.*;
+import com.etiya.rentACarSpring.entities.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -15,6 +18,9 @@ import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.dataAccess.abstracts.CityDao;
 import com.etiya.rentACarSpring.entities.City;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CityManager implements CityService {
 
@@ -26,6 +32,16 @@ public class CityManager implements CityService {
         super();
         this.cityDao = cityDao;
         this.modelMapperService = modelMapperService;
+    }
+
+    @Override
+    public DataResult<List<CitySearchListDto>> getAll() {
+        List<City> result = this.cityDao.findAll();
+        List<CitySearchListDto> response = result.stream()
+                .map(city -> modelMapperService.forDto().map(city, CitySearchListDto.class))
+                .collect(Collectors.toList());
+
+        return new SuccesDataResult<List<CitySearchListDto>>(response);
     }
 
     @Override

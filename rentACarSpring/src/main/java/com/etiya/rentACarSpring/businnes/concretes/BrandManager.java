@@ -1,6 +1,10 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
 import com.etiya.rentACarSpring.businnes.abstracts.MessageService;
+import com.etiya.rentACarSpring.businnes.dtos.BrandSearchListDto;
+import com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto;
+import com.etiya.rentACarSpring.core.utilities.results.*;
+import com.etiya.rentACarSpring.entities.Rental;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +15,11 @@ import com.etiya.rentACarSpring.businnes.request.BrandRequest.DeleteBrandRequest
 import com.etiya.rentACarSpring.businnes.request.BrandRequest.UpdateBrandRequest;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
-import com.etiya.rentACarSpring.core.utilities.results.ErrorResult;
-import com.etiya.rentACarSpring.core.utilities.results.Result;
-import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.BrandDao;
 import com.etiya.rentACarSpring.entities.Brand;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BrandManager implements BrandService {
@@ -30,6 +34,16 @@ public class BrandManager implements BrandService {
         this.brandDao = brandDao;
         this.modelMapperService = modelMapperService;
         this.messageService = messageService;
+    }
+
+    @Override
+    public DataResult<List<BrandSearchListDto>> getAll() {
+        List<Brand> result = this.brandDao.findAll();
+        List<BrandSearchListDto> response = result.stream()
+                .map(brand -> modelMapperService.forDto().map(brand, BrandSearchListDto.class))
+                .collect(Collectors.toList());
+
+        return new SuccesDataResult<List<BrandSearchListDto>>(response);
     }
 
     @Override
