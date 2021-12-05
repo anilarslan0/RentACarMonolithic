@@ -17,7 +17,7 @@ import com.etiya.rentACarSpring.businnes.abstracts.RentalService;
 import com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.CreateRentalRequest;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.DeleteRentaRequest;
-import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarUpdateRequest;
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarRequest;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.Result;
 
@@ -44,8 +44,8 @@ public class RentalsController {
 	}
 	
 	@PutMapping("returnTheCar")
-	public Result update(@RequestBody @Valid DropOffCarUpdateRequest dropOffCarUpdateRequest) {
-		return this.rentalService.dropOffCarUpdate(dropOffCarUpdateRequest);
+	public Result update(@RequestBody @Valid DropOffCarRequest dropOffCarRequest) {
+		return this.rentalService.dropOffCar(dropOffCarRequest);
 	}
 
 	@DeleteMapping("delete")

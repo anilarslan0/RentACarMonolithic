@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.etiya.rentACarSpring.businnes.request.CreditCardRentalRequest;
+import com.etiya.rentACarSpring.businnes.request.MessageRequest.UpdateMessageRequest;
 import com.etiya.rentACarSpring.businnes.request.PosServiceRequest;
-import com.etiya.rentACarSpring.businnes.request.RentalRequest.UpdateRentalRequest;
 import com.etiya.rentACarSpring.core.utilities.adapter.posServiceAdapter.posSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -21,7 +21,7 @@ import com.etiya.rentACarSpring.businnes.constants.Messages;
 import com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.CreateRentalRequest;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.DeleteRentaRequest;
-import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarUpdateRequest;
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarRequest;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
@@ -78,12 +78,12 @@ public class RentalManager implements RentalService {
                 checkUserAndCarFindexScore(createRentalRequest.getUserId(), createRentalRequest.getCarId()),
                 carMaintenanceService.CheckIfCarIsAtMaintenance(createRentalRequest.getCarId()),
                 checkIfUserRegisteredSystem(createRentalRequest.getUserId()),
-                checkIfCarIsNotExistsInGallery(createRentalRequest.getCarId()));
+                checkIfCarIsNotExistsInGallery(createRentalRequest.getCarId())
+        );
 
         if (result != null) {
             return result;
         }
-
 
         Rental rental = modelMapperService.forRequest().map(createRentalRequest, Rental.class);
         this.rentalDao.save(rental);
@@ -91,21 +91,22 @@ public class RentalManager implements RentalService {
     }
 
     @Override
-    public Result dropOffCarUpdate(DropOffCarUpdateRequest dropOffCarUpdateRequest) {
-        Result rules = BusinnessRules.run(checkCreditCardBalance(dropOffCarUpdateRequest, dropOffCarUpdateRequest.getCreditCardRentalRequest()),
-                checkReturnDate(dropOffCarUpdateRequest.getRentalId())
-                );
+    public Result dropOffCar(DropOffCarRequest dropOffCarRequest) {
+        Result rules = BusinnessRules.run(checkCreditCardBalance(dropOffCarRequest, dropOffCarRequest.getCreditCardRentalRequest()),
+                checkReturnDate(dropOffCarRequest.getRentalId()),
+                creditcardService.checkIfCreditCardCvvFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCvv()),
+                creditcardService.checkIfCreditCardFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCardNumber())
+        );
 
         if (rules != null) {
             return rules;
         }
 
-        Rental rental = modelMapperService.forRequest().map(dropOffCarUpdateRequest, Rental.class);
-
+        Rental rental = modelMapperService.forRequest().map(dropOffCarRequest, Rental.class);
         Car car = rental.getCar();
 
 
-        Rental result = this.rentalDao.getByRentalId(dropOffCarUpdateRequest.getRentalId());
+        Rental result = this.rentalDao.getByRentalId(dropOffCarRequest.getRentalId());
         rental.setRentDate(result.getRentDate());
         rental.setTakeCity(result.getTakeCity());
         rental.setUser(result.getUser());
@@ -114,8 +115,15 @@ public class RentalManager implements RentalService {
         car.setCity(rental.getReturnCity());
 
         this.rentalDao.save(rental);
-        this.invoiceService.Add(dropOffCarUpdateRequest);
+        this.invoiceService.Add(dropOffCarRequest);
         return new SuccesResult("Araç kiradan döndü ve fatura oluşturuldu.");
+    }
+
+    @Override
+    public Result Update(UpdateMessageRequest updateMessageRequest) {
+        Rental rental = modelMapperService.forRequest().map(updateMessageRequest, Rental.class);
+        this.rentalDao.save(rental);
+        return new SuccesResult(Messages.succesRental);
     }
 
     @Override
@@ -125,8 +133,8 @@ public class RentalManager implements RentalService {
     }
 
     @Override
-    public DataResult<List<Rental>> getByCar(int carId) {
-        return null;
+    public Rental getById(int rentalId) {
+        return this.rentalDao.getById(rentalId);
     }
 
     public Result checkCarRentalStatus(int carId) {
@@ -141,9 +149,18 @@ public class RentalManager implements RentalService {
         return new SuccesResult();
     }
 
-    @Override
-    public Rental getById(int rentalId) {
-        return this.rentalDao.getById(rentalId);
+    public Integer sumAdditionalServicePriceByRentalId(int rentalId) {
+        List<Integer> prices = this.rentalDao.getAdditionalRentalPrice(rentalId);
+        int additionalTotalPrice = 0;
+
+        for (int price : prices) {
+            additionalTotalPrice += price;
+        }
+        return additionalTotalPrice;
+    }
+
+    public DataResult<Integer> getDailyPriceOfRentedCar(int rentalId) {
+        return new SuccesDataResult<>(this.rentalDao.getDailyPriceOfCar(rentalId));
     }
 
     private Result checkUserAndCarFindexScore(int userId, int carId) {
@@ -154,12 +171,18 @@ public class RentalManager implements RentalService {
         return new SuccesResult();
     }
 
+    private Result checkReturnDate(int rentalId) {
+        var result = this.rentalDao.getByRentalId(rentalId);
+        if ((result.getReturnDate() != null)) {
+            return new ErrorResult("Araba zaten geri dönmüş durumda.");
+        }
+        return new SuccesResult();
+    }
 
-    private Result checkCreditCardBalance(DropOffCarUpdateRequest dropOffCarUpdateRequest, CreditCardRentalRequest creditCardRentalRequest) {
-
+    private Result checkCreditCardBalance(DropOffCarRequest dropOffCarRequest, CreditCardRentalRequest creditCardRentalRequest) {
 
         PosServiceRequest posServiceRequest = new PosServiceRequest();
-        posServiceRequest.setPrice(invoiceService.rentOfTotalPrice(dropOffCarUpdateRequest));
+        posServiceRequest.setPrice(invoiceService.rentOfTotalPrice(dropOffCarRequest));
         posServiceRequest.setCvv(creditCardRentalRequest.getCvv());
         posServiceRequest.setCardNumber(creditCardRentalRequest.getCardNumber());
         if (!this.posSystemService.checkPayment(posServiceRequest)) {
@@ -167,7 +190,6 @@ public class RentalManager implements RentalService {
         }
         return new SuccesResult();
     }
-
 
     private Result checkIfCarIsNotExistsInGallery(int carId) {
         if (!this.carService.checkCarExistsInGallery(carId).isSuccess()) {
@@ -183,27 +205,5 @@ public class RentalManager implements RentalService {
         return new SuccesResult();
     }
 
-    public Integer sumAdditionalServicePriceByRentalId(int rentalId) {
-        List<Integer> prices = this.rentalDao.getAdditionalRentalPrice(rentalId);
-        int additionalTotalPrice = 0;
-
-        for (int price : prices) {
-            additionalTotalPrice += price;
-        }
-        return additionalTotalPrice;
-    }
-
-    @Override
-    public Integer getDailyPriceOfRental(int rentalId) {
-        return this.rentalDao.getDailyPriceOfCar(rentalId);
-    }
-
-    private Result checkReturnDate(int rentalId){
-        var result = this.rentalDao.getByRentalId(rentalId);
-        if ((result.getReturnDate()!=null)){
-            return new ErrorResult("Araba zaten geri dönmüş durumda.");
-        }
-        return new SuccesResult();
-    }
 
 }

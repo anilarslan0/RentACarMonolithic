@@ -2,12 +2,13 @@ package com.etiya.rentACarSpring.businnes.concretes;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.etiya.rentACarSpring.businnes.abstracts.*;
-import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarUpdateRequest;
+import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.CreateInvoiceRequest2;
+import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarRequest;
+import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
+import com.etiya.rentACarSpring.core.utilities.results.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +18,6 @@ import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.CreateInvoiceDat
 import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.DeleteInvoiceRequest;
 import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.UpdateInvoiceRequest;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
-import com.etiya.rentACarSpring.core.utilities.results.DataResult;
-import com.etiya.rentACarSpring.core.utilities.results.Result;
-import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
-import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.InvoiceDao;
 import com.etiya.rentACarSpring.entities.Invoice;
 
@@ -57,20 +54,31 @@ public class InvoiceManager implements InvoiceService {
     }
 
     @Override
-    public Result Add(DropOffCarUpdateRequest dropOffCarUpdateRequest) {
+    public Result Add(DropOffCarRequest dropOffCarRequest) {
+        Result rules = BusinnessRules.run(ifExistRentalIdOnInvoice(dropOffCarRequest.getRentalId())
+        );
 
+        if (rules != null) {
+            return rules;
+        }
         Invoice invoice = new Invoice();
         invoice.setCreateDate(new java.sql.Date(new java.util.Date().getTime()));
-        invoice.setInvoiceNumber(createInvoiceNumber(dropOffCarUpdateRequest.getRentalId()).getData());
-        invoice.setTotalRentDay(rentOfTotalRentDate(dropOffCarUpdateRequest));
-        invoice.setTotalPrice(rentOfTotalPrice(dropOffCarUpdateRequest));
-        invoice.setRental(rentalService.getById(dropOffCarUpdateRequest.getRentalId()));
+        invoice.setInvoiceNumber(createInvoiceNumber(dropOffCarRequest.getRentalId()).getData());
+        invoice.setTotalRentDay(rentOfTotalRentDate(dropOffCarRequest));
+        invoice.setTotalPrice(rentOfTotalPrice(dropOffCarRequest));
+        invoice.setRental(rentalService.getById(dropOffCarRequest.getRentalId()));
         this.invoiceDao.save(invoice);
         return new SuccesResult(Messages.addedInvoice);
     }
 
     @Override
     public Result Update(UpdateInvoiceRequest updateInvoiceRequest) {
+        Result rules = BusinnessRules.run(ifExistRentalIdOnInvoice(updateInvoiceRequest.getRentalId())
+        );
+
+        if (rules != null) {
+            return rules;
+        }
         Invoice invoice = modelMapperService.forRequest().map(updateInvoiceRequest, Invoice.class);
         this.invoiceDao.save(invoice);
         return new SuccesResult(Messages.updateInvoice);
@@ -96,7 +104,6 @@ public class InvoiceManager implements InvoiceService {
         return new SuccesDataResult<List<InvoiceSearchListDto>>(response);
     }
 
-
     private int calculateDifferenceBetweenDays(Date maxDate, Date minDate) {
         long difference = (maxDate.getTime() - minDate.getTime()) / 86400000;
         return Math.abs((int) difference);
@@ -118,20 +125,28 @@ public class InvoiceManager implements InvoiceService {
         return new SuccesDataResult<>(invoiceNumber);
     }
 
-    public Integer rentOfTotalPrice(DropOffCarUpdateRequest dropOffCarUpdateRequest) {
-
-        int dailyPriceOfCar = (int) (carService.getbyId(dropOffCarUpdateRequest.getCarId()).getData().getDailyPrice());
-        int priceOfDiffrentCity = ifCarReturnedToDifferentCity(dropOffCarUpdateRequest.getRentalId(), dropOffCarUpdateRequest.getReturnCityId()).getData();
-        int addtionalServicePrice = rentalService.sumAdditionalServicePriceByRentalId(dropOffCarUpdateRequest.getRentalId()) * rentOfTotalRentDate(dropOffCarUpdateRequest);
-        int totalPrice = (rentOfTotalRentDate(dropOffCarUpdateRequest) * dailyPriceOfCar) + priceOfDiffrentCity + addtionalServicePrice;
+    public Integer rentOfTotalPrice(DropOffCarRequest dropOffCarRequest) {
+        int dailyPriceOfCar=this.rentalService.getDailyPriceOfRentedCar(dropOffCarRequest.getRentalId()).getData();
+        //int dailyPriceOfCar = (int) (carService.getbyId(dropOffCarRequest.getCarId()).getData().getDailyPrice());
+        int priceOfDiffrentCity = ifCarReturnedToDifferentCity(dropOffCarRequest.getRentalId(), dropOffCarRequest.getReturnCityId()).getData();
+        int addtionalServicePrice = rentalService.sumAdditionalServicePriceByRentalId(dropOffCarRequest.getRentalId()) * rentOfTotalRentDate(dropOffCarRequest);
+        int totalPrice = (rentOfTotalRentDate(dropOffCarRequest) * dailyPriceOfCar) + priceOfDiffrentCity + addtionalServicePrice;
         return totalPrice;
 
     }
 
-    private Integer rentOfTotalRentDate(DropOffCarUpdateRequest dropOffCarUpdateRequest) {
-        Date rentDateForInvoice = (Date) (rentalService.getById(dropOffCarUpdateRequest.getRentalId()).getRentDate());
-        int totalRentDay = calculateDifferenceBetweenDays(dropOffCarUpdateRequest.getReturnDate(), rentDateForInvoice);
+    private Integer rentOfTotalRentDate(DropOffCarRequest dropOffCarRequest) {
+        Date rentDateForInvoice = (Date) (rentalService.getById(dropOffCarRequest.getRentalId()).getRentDate());
+        int totalRentDay = calculateDifferenceBetweenDays(dropOffCarRequest.getReturnDate(), rentDateForInvoice);
         return totalRentDay;
+    }
+
+    private Result ifExistRentalIdOnInvoice(int rentalId) {
+        var result = this.invoiceDao.countByRental_RentalId(rentalId);
+        if (result > 0) {
+            return new ErrorResult("Bu kiralamaya ait zaten bir fatura mevcut.Yenisini ekleyemezsiniz.Lütfen mevcut fatura üzerinde işlem yapınız.");
+        }
+        return new SuccesResult();
     }
 
 

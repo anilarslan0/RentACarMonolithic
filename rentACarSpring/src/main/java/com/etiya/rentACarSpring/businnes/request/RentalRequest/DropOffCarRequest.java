@@ -9,12 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DropOffCarUpdateRequest {
+public class DropOffCarRequest {
 
 	private int rentalId;
 
@@ -25,7 +23,7 @@ public class DropOffCarUpdateRequest {
 
 	private int returnKilometer;
 
-	private int carId;
+	//private int carId;
 
 	private CreditCardRentalRequest creditCardRentalRequest;
 

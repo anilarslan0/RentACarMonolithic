@@ -77,7 +77,7 @@ public class CreditCardManager implements CreditCardService {
         return new SuccesResult("Credit card is deleted.");
     }
 
-    private Result checkIfCreditCardFormatIsTrue(String cardNumber) {
+    public Result checkIfCreditCardFormatIsTrue(String cardNumber) {
 
         String regex = "^(?:(?<visa>4[0-9]{12}(?:[0-9]{3})?)|" + "(?<mastercard>5[1-5][0-9]{14})|"
                 + "(?<discover>6(?:011|5[0-9]{2})[0-9]{12})|" + "(?<amex>3[47][0-9]{13})|"
@@ -102,7 +102,7 @@ public class CreditCardManager implements CreditCardService {
     }
 
 
-    private Result checkIfCreditCardCvvFormatIsTrue(String cvv) {
+    public Result checkIfCreditCardCvvFormatIsTrue(String cvv) {
 
         String regex = "^[0-9]{3,3}$";
 

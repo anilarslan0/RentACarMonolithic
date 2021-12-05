@@ -28,4 +28,5 @@ public interface RentalDao extends JpaRepository<Rental, Integer> {
 
 
 
+
 }

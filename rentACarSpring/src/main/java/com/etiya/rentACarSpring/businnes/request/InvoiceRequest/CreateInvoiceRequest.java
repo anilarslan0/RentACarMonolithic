@@ -32,3 +32,5 @@ public class CreateInvoiceRequest {
 	@NotNull
 	private int rentalId;
 }
+
+
