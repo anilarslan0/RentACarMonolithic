@@ -1,7 +1,10 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
+import com.etiya.rentACarSpring.businnes.dtos.CorparateCustomerSearchListDto;
+import com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
-import com.etiya.rentACarSpring.core.utilities.results.ErrorResult;
+import com.etiya.rentACarSpring.core.utilities.results.*;
+import com.etiya.rentACarSpring.entities.Rental;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +13,11 @@ import com.etiya.rentACarSpring.businnes.request.CorparateCustomerRequest.Create
 import com.etiya.rentACarSpring.businnes.request.CorparateCustomerRequest.DeleteCorparateRequest;
 import com.etiya.rentACarSpring.businnes.request.CorparateCustomerRequest.UpdateCorparateRequest;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
-import com.etiya.rentACarSpring.core.utilities.results.Result;
-import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
 import com.etiya.rentACarSpring.dataAccess.abstracts.CorparateCustomerDao;
 import com.etiya.rentACarSpring.entities.CorparateCustomer;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CorparateCustomerManager implements CorparateCustomerService {
@@ -26,6 +30,16 @@ public class CorparateCustomerManager implements CorparateCustomerService {
         super();
         this.corparateCustomerDao = corparateCustomerDao;
         this.modelMapperService = modelMapperService;
+    }
+
+    @Override
+    public DataResult<List<CorparateCustomerSearchListDto>> getAll() {
+        List<CorparateCustomer> result = this.corparateCustomerDao.findAll();
+        List<CorparateCustomerSearchListDto> response = result.stream()
+                .map(corparateCustomer -> modelMapperService.forDto().map(corparateCustomer, CorparateCustomerSearchListDto.class))
+                .collect(Collectors.toList());
+
+        return new SuccesDataResult<List<CorparateCustomerSearchListDto>>(response);
     }
 
     @Override
