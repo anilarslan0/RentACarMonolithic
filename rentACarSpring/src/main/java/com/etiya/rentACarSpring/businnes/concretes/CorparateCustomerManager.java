@@ -1,10 +1,8 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
 import com.etiya.rentACarSpring.businnes.dtos.CorparateCustomerSearchListDto;
-import com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.*;
-import com.etiya.rentACarSpring.entities.Rental;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

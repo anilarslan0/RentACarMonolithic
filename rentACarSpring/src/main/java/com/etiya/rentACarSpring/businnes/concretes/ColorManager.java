@@ -1,10 +1,8 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
-import com.etiya.rentACarSpring.businnes.dtos.BrandSearchListDto;
 import com.etiya.rentACarSpring.businnes.dtos.ColorSearchListDto;
 import com.etiya.rentACarSpring.core.utilities.results.DataResult;
 import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
-import com.etiya.rentACarSpring.entities.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;

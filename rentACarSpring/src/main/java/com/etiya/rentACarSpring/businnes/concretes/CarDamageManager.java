@@ -11,7 +11,6 @@ import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.core.utilities.results.*;
 import com.etiya.rentACarSpring.dataAccess.abstracts.CarDamageDao;
 
-import com.etiya.rentACarSpring.entities.Car;
 import com.etiya.rentACarSpring.entities.CarDamage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

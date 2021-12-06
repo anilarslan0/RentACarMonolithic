@@ -1,10 +1,8 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
 import com.etiya.rentACarSpring.businnes.dtos.CitySearchListDto;
-import com.etiya.rentACarSpring.businnes.dtos.ColorSearchListDto;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.*;
-import com.etiya.rentACarSpring.entities.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
