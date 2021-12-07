@@ -46,7 +46,8 @@ public class BrandManager implements BrandService {
 
     @Override
     public Result save(CreateBrandRequest createBrandRequest) {
-        Result result = BusinnessRules.run(checkBrandNameDublicated(createBrandRequest.getBrandName()));
+        Result result = BusinnessRules.run(checkBrandNameDublicated(createBrandRequest.getBrandName())
+               );
         if (result != null) {
             return result;
         }
@@ -59,7 +60,8 @@ public class BrandManager implements BrandService {
 
     @Override
     public Result update(UpdateBrandRequest updateBrandRequest) {
-        Result result = BusinnessRules.run(checkBrandNameDublicated(updateBrandRequest.getBrandName()));
+        Result result = BusinnessRules.run(checkBrandNameDublicated(updateBrandRequest.getBrandName()),
+                checkIfBrandExists(updateBrandRequest.getBrandId()));
         if (result != null) {
             return result;
         }
@@ -71,9 +73,21 @@ public class BrandManager implements BrandService {
 
     @Override
     public Result delete(DeleteBrandRequest deleteBrandRequest) {
+        Result result = BusinnessRules.run(checkIfBrandExists(deleteBrandRequest.getBrandId()));
+        if (result != null) {
+            return result;
+        }
 
         this.brandDao.deleteById(deleteBrandRequest.getBrandId());
         return new SuccesResult(messageService.getByEnglishMessageByMessageId(3));
+    }
+
+    @Override
+    public Result checkIfBrandExists(int brandId) {
+        if (!this.brandDao.existsById(brandId)) {
+            return new ErrorResult("brand Id bulunamadı");
+        }
+        return new SuccesResult();
     }
 
     private Result checkBrandNameDublicated(String brandName) {
@@ -84,5 +98,7 @@ public class BrandManager implements BrandService {
 
         return new SuccesResult();
     }
+
+
 
 }

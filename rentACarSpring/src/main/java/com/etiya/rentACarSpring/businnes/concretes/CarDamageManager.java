@@ -15,6 +15,7 @@ import com.etiya.rentACarSpring.entities.CarDamage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,7 +56,7 @@ public class CarDamageManager implements CarDamageService {
     }
 
     @Override
-    public Result update(UpdateCarDamageRequest updateCarDamageRequest) {
+    public Result update(UpdateCarDamageRequest updateCarDamageRequest)  {
         Result result = BusinnessRules.run(checkCarExistsInGallery(updateCarDamageRequest.getCarId()));
         if (result != null) {
             return result;
@@ -67,7 +68,7 @@ public class CarDamageManager implements CarDamageService {
     }
 
     @Override
-    public Result delete(DeleteCarDamageRequest deleteCarDamageRequest) {
+    public Result delete(DeleteCarDamageRequest deleteCarDamageRequest) throws EntityNotFoundException {
         this.carDamageDao.deleteById(deleteCarDamageRequest.getCarDamageId());
         return new SuccesResult("Silindi");
     }
