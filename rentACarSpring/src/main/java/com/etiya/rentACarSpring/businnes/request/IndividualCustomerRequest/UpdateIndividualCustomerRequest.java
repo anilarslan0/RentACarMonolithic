@@ -1,8 +1,6 @@
 package com.etiya.rentACarSpring.businnes.request.IndividualCustomerRequest;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
