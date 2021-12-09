@@ -1,6 +1,7 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
 import com.etiya.rentACarSpring.businnes.dtos.CorparateCustomerSearchListDto;
+import com.etiya.rentACarSpring.core.utilities.adapter.findexScoreServiceAdapter.findexScoreService;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,15 @@ public class CorparateCustomerManager implements CorparateCustomerService {
 
     private CorparateCustomerDao corparateCustomerDao;
     private ModelMapperService modelMapperService;
+    private findexScoreService findexScoreService;
 
     @Autowired
-    public CorparateCustomerManager(CorparateCustomerDao corparateCustomerDao, ModelMapperService modelMapperService) {
+    public CorparateCustomerManager(CorparateCustomerDao corparateCustomerDao, ModelMapperService modelMapperService
+                    ,findexScoreService findexScoreService) {
         super();
         this.corparateCustomerDao = corparateCustomerDao;
         this.modelMapperService = modelMapperService;
+        this.findexScoreService =findexScoreService;
     }
 
     @Override
@@ -60,6 +64,7 @@ public class CorparateCustomerManager implements CorparateCustomerService {
         }
 
         CorparateCustomer corparateCustomer = modelMapperService.forRequest().map(updateCorparateRequest, CorparateCustomer.class);
+        corparateCustomer.setFindexScore(findexScoreService.getIndividualFindexScore(corparateCustomer.getTaxNumber()));
         this.corparateCustomerDao.save(corparateCustomer);
         return new SuccesResult("Güncelleme İşlemi Başarılı");
     }

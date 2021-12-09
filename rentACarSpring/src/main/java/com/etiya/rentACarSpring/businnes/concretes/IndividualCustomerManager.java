@@ -3,6 +3,7 @@ package com.etiya.rentACarSpring.businnes.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACarSpring.core.utilities.adapter.findexScoreServiceAdapter.findexScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +27,16 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
     private IndividualCustomerDao individualCustomerDao;
     private ModelMapperService modelMapperService;
+    private findexScoreService findexScoreService;
+
 
     @Autowired
     public IndividualCustomerManager(IndividualCustomerDao individualCustomerDao,
-                                     ModelMapperService modelMapperService) {
+                                     ModelMapperService modelMapperService,findexScoreService findexScoreService) {
         super();
         this.individualCustomerDao = individualCustomerDao;
         this.modelMapperService = modelMapperService;
+        this.findexScoreService=findexScoreService;
     }
 
     @Override
@@ -55,7 +59,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
     @Override
     public Result Update(UpdateIndividualCustomerRequest updateIndividualCustomerRequest) {
         IndividualCustomer individualCustomer = modelMapperService.forRequest().map(updateIndividualCustomerRequest, IndividualCustomer.class);
-
+        individualCustomer.setFindexScore(findexScoreService.getIndividualFindexScore(individualCustomer.getIdentityNumber()));
         this.individualCustomerDao.save(individualCustomer);
         return new SuccesResult("Guncelleme İslemi Basarili");
     }
