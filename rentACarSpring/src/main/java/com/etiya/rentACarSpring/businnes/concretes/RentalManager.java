@@ -109,7 +109,7 @@ public class RentalManager implements RentalService {
         rental.setRentDate(result.getRentDate());
         rental.setTakeCity(result.getTakeCity());
         rental.setUser(result.getUser());
-        //rental.setCar(result.getCar());
+        rental.setCar(result.getCar());
 
         this.rentalDao.save(rental);
 
