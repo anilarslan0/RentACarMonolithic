@@ -147,6 +147,4 @@ public class InvoiceManager implements InvoiceService {
         }
         return new SuccesResult();
     }
-
-
 }

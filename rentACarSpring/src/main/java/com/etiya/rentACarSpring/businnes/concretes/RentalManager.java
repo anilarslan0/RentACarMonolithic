@@ -92,7 +92,8 @@ public class RentalManager implements RentalService {
 
     @Override
     public Result dropOffCar(DropOffCarRequest dropOffCarRequest) {
-        Result rules = BusinnessRules.run(checkCreditCardBalance(dropOffCarRequest, dropOffCarRequest.getCreditCardRentalRequest()),
+        Result rules = BusinnessRules.run(checkCreditCardBalance(dropOffCarRequest,
+                        dropOffCarRequest.getCreditCardRentalRequest()),
                 checkReturnDate(dropOffCarRequest.getRentalId()),
                 creditcardService.checkIfCreditCardCvvFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCvv()),
                 creditcardService.checkIfCreditCardFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCardNumber())
@@ -103,19 +104,21 @@ public class RentalManager implements RentalService {
         }
 
         Rental rental = modelMapperService.forRequest().map(dropOffCarRequest, Rental.class);
-        Car car = rental.getCar();
-
-
         Rental result = this.rentalDao.getByRentalId(dropOffCarRequest.getRentalId());
+        rental.setRentalId(result.getRentalId());
         rental.setRentDate(result.getRentDate());
         rental.setTakeCity(result.getTakeCity());
         rental.setUser(result.getUser());
-        rental.setCar(car);
+        //rental.setCar(result.getCar());
+
+        this.rentalDao.save(rental);
+
+        this.invoiceService.Add(dropOffCarRequest);
+
+        var car = this.carService.getbyId(rental.getCar().getCarId()).getData();
         car.setKilometer(rental.getReturnKilometer());
         car.setCity(rental.getReturnCity());
 
-        this.rentalDao.save(rental);
-        this.invoiceService.Add(dropOffCarRequest);
         return new SuccesResult("Araç kiradan döndü ve fatura oluşturuldu.");
     }
 
