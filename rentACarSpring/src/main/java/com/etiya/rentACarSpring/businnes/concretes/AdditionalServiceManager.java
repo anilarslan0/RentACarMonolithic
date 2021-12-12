@@ -48,15 +48,15 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 
     @Override
     public Result update(UpdateAdditionalServiceRequest updateAdditionalServiceRequest) {
-        Result result = BusinnessRules.run(checkAdditionalServiceNameDublicated(updateAdditionalServiceRequest.getAdditionalServiceName())
-        ,checkIfAdditionalServicexists(updateAdditionalServiceRequest.getAdditionalServiceId()));
+        Result result = BusinnessRules.run(
+        checkIfAdditionalServicexists(updateAdditionalServiceRequest.getAdditionalServiceId()));
         if (result != null) {
             return result;
         }
 
         AdditionalService additionalService = modelMapperService.forRequest().map(updateAdditionalServiceRequest, AdditionalService.class);
         this.additionalServiceDao.save(additionalService);
-        return new SuccesResult("Eklendi");
+        return new SuccesResult("güncellendi");
     }
 
     @Override
@@ -88,7 +88,7 @@ public class AdditionalServiceManager implements AdditionalServiceService {
         return new SuccesResult();
     }
 
-    @Override
+
     public Result checkIfAdditionalServicexists(int additionalServiceId) {
         if (!this.additionalServiceDao.existsById(additionalServiceId)) {
             return new ErrorResult("additionalServiceId  bulunamadı");

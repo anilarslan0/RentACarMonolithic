@@ -16,4 +16,5 @@ public interface AdditionalServiceService {
     Result delete(DeleteAdditionalServiceRequest deleteAdditionalServiceRequest);
     DataResult<List<AdditionalServiceSearchListDto>> getAll();
     Result checkIfAdditionalServicexists(int additionalServiceId);
+
 }

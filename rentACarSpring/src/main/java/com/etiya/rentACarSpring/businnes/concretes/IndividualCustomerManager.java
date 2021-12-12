@@ -52,6 +52,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
     @Override
     public Result Save(CreateIndividualCustomerRequest createIndividualCustomerRequest) {
         IndividualCustomer individualCustomer = modelMapperService.forRequest().map(createIndividualCustomerRequest, IndividualCustomer.class);
+        individualCustomer.setFindexScore(findexScoreService.getIndividualFindexScore(individualCustomer.getIdentityNumber()));
         this.individualCustomerDao.save(individualCustomer);
         return new SuccesResult("Ekleme İslemi Basarili");
     }

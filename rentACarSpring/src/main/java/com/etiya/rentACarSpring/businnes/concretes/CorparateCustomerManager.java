@@ -52,6 +52,7 @@ public class CorparateCustomerManager implements CorparateCustomerService {
         }
 
         CorparateCustomer corparateCustomer = modelMapperService.forRequest().map(createCorparateRequest, CorparateCustomer.class);
+        corparateCustomer.setFindexScore(findexScoreService.getIndividualFindexScore(corparateCustomer.getTaxNumber()));
         this.corparateCustomerDao.save(corparateCustomer);
         return new SuccesResult("Ekleme İslemi Basarili");
     }
