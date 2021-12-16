@@ -27,7 +27,7 @@ public class MessageManager implements MessageService {
     }
 
     @Override
-    public DataResult<Message> getbyId(int messageId) {
+    public DataResult<Message> getById(int messageId) {
         return new SuccesDataResult<Message>(this.messageDao.getById(messageId));
     }
 

@@ -15,8 +15,8 @@ import com.etiya.rentACarSpring.entities.Rental;
 
 public interface RentalService {
 	DataResult<List<RentalSearchListDto>> getAll();
-	Result Add(CreateRentalRequest createRentalRequest);
-	Result Delete(DeleteRentaRequest deleteRentalRequest);
+	Result add(CreateRentalRequest createRentalRequest);
+	Result delete(DeleteRentaRequest deleteRentalRequest);
 	Result checkCarRentalStatus(int carId);
 	Rental getById(int rentalId);
 	Integer sumAdditionalServicePriceByRentalId(int rentalId);

@@ -48,7 +48,7 @@ public class CarManager implements CarService {
     }
 
     @Override
-    public Result Save(CreateCarRequest createCarRequest) {
+    public Result save(CreateCarRequest createCarRequest) {
         Car car = modelMapperService.forRequest().map(createCarRequest, Car.class);
         car.setFindexScore(findexScoreService.sendCarFindexScore());
         this.carDao.save(car);
@@ -56,14 +56,14 @@ public class CarManager implements CarService {
     }
 
     @Override
-    public Result Update(UpdateCarRequest updateCarRequest) {
+    public Result update(UpdateCarRequest updateCarRequest) {
         Car car = modelMapperService.forRequest().map(updateCarRequest, Car.class);
         this.carDao.save(car);
         return new SuccesResult(messageService.getByEnglishMessageByMessageId(7));
     }
 
     @Override
-    public Result Delete(DeleteCarRequest deleteCarRequest) {
+    public Result delete(DeleteCarRequest deleteCarRequest) {
 
         this.carDao.deleteById(deleteCarRequest.getCarId());
         return new SuccesResult(messageService.getByEnglishMessageByMessageId(6));
@@ -115,7 +115,7 @@ public class CarManager implements CarService {
     }
 
     @Override
-    public DataResult<Car> getbyId(int carId) {
+    public DataResult<Car> getById(int carId) {
         return new SuccesDataResult<Car>(this.carDao.getById(carId));
     }
 

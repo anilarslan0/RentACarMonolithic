@@ -73,10 +73,10 @@ public class RentalManager implements RentalService {
     }
 
     @Override
-    public Result Add(CreateRentalRequest createRentalRequest) {
+    public Result add(CreateRentalRequest createRentalRequest) {
         Result result = BusinnessRules.run(checkCarRentalStatus(createRentalRequest.getCarId()),
                 checkUserAndCarFindexScore(createRentalRequest.getUserId(), createRentalRequest.getCarId()),
-                carMaintenanceService.CheckIfCarIsAtMaintenance(createRentalRequest.getCarId()),
+                carMaintenanceService.checkIfCarIsAtMaintenance(createRentalRequest.getCarId()),
                 checkIfUserRegisteredSystem(createRentalRequest.getUserId()),
                 checkIfCarIsNotExistsInGallery(createRentalRequest.getCarId())
         );
@@ -114,9 +114,9 @@ public class RentalManager implements RentalService {
 
         this.rentalDao.save(rental);
 
-        this.invoiceService.Add(dropOffCarRequest);
+        this.invoiceService.add(dropOffCarRequest);
 
-        var car = this.carService.getbyId(rental.getCar().getCarId()).getData();
+        var car = this.carService.getById(rental.getCar().getCarId()).getData();
         car.setKilometer(rental.getReturnKilometer());
         car.setCity(rental.getReturnCity());
 
@@ -124,7 +124,7 @@ public class RentalManager implements RentalService {
     }
 
     @Override
-    public Result Delete(DeleteRentaRequest deleteRentalRequest) {
+    public Result delete(DeleteRentaRequest deleteRentalRequest) {
         Result rules = BusinnessRules.run(checkIfRentalExists(deleteRentalRequest.getRentalId())
         );
 
@@ -169,7 +169,7 @@ public class RentalManager implements RentalService {
     }
 
     private Result checkUserAndCarFindexScore(int userId, int carId) {
-        if (this.carService.getbyId(carId).getData().getFindexScore() > this.userService.getById(userId).getData()
+        if (this.carService.getById(carId).getData().getFindexScore() > this.userService.getById(userId).getData()
                 .getFindexScore()) {
             return new ErrorResult("Findex Puanı yeterli değildir.");
         }
